@@ -8,7 +8,7 @@
 # Site Settings
 title                    : "DaihuiZhu"
 description              : ""
-repository               : "DZhu903/daihuizhu.github.io"
+repository               : "daihuizhu/daihuizhu.github.io"
 google_scholar_stats_use_cdn : true
 
 # google analytics
@@ -27,7 +27,7 @@ author:
   location         : "Gothenburg, Sweden"
   employer         :
   pubmed           : 
-  googlescholar    : "https://scholar.google.com/citations?user=YOUR_GOOGLE_SCHOLAR_ID"
+  googlescholar    : "https://scholar.google.com/citations?user=ug6dt7AAAAAJ&hl=en"
   email            : "dzhu253@gmail.com"
   researchgate     :  # e.g., "https://www.researchgate.net/profile/yourprofile"
   uri              :
@@ -37,15 +37,15 @@ author:
   flickr           :
   facebook         :
   foursquare       :
-  github           : # e.g., "Daihui Zhu"
+  github           : # e.g., "daihuizhu"
   google_plus      :
   keybase          :
   instagram        :
   impactstory      : # e.g., "https://profiles.impactstory.org/u/xxxx-xxxx-xxxx-xxxx"
   lastfm           :
-  linkedin         : # e.g., "linkedin username"
+  linkedin         : "https://www.linkedin.com/in/daihui0903/"
   dblp             : # e.g., "https://dblp.org/pid/xx/xxxx.html"
-  orcid            : # e.g., "https://orcid.org/xxxx"
+  orcid            : "https://orcid.org/0009-0002-0859-4491"
   pinterest        :
   soundcloud       :
   stackoverflow    : # http://stackoverflow.com/users/123456/username
