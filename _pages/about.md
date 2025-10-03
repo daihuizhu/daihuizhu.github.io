@@ -28,20 +28,20 @@ I'm experienced in common/differential-mode filter designs, inverter modulation 
 
 # 📝 Publications 
 
-Z. Daihui, S. Nimananda, S. Emad， “Optimal Dimensioning of DC-link Capacitor for Electric Motor Drive Application,” IEEE IECON 2025 – 51st Annual Conference of the IEEE Industrial Electronics Society, Madrid, Spain, 2025. (Accepted)
+[1] Z. Daihui, S. Nimananda, S. Emad， “Optimal Dimensioning of DC-link Capacitor for Electric Motor Drive Application,” IEEE IECON 2025 – 51st Annual Conference of the IEEE Industrial Electronics Society, Madrid, Spain, 2025. (Accepted)
 
 # 🎖 Honors and Awards
-- 
+- Avancez Scholarship - Chalmers University of Technology
+  
 # 📖 Educations
 - * Chalmers University of Technology - Master’s in Sustainable Power Engineering and Electromobility
 - * Beijing Jiaotong University (北京交通大学) - Bachelor’s in Electrical Engineering
-# 💬 Invited Talks
-
 
 # 💻 Work Experience
-- * Volvo Group Truck Technology       Nov.2024 - Now
+- * Volvo Group Truck Technology
+    Nov.2024 - Now
 Associate Power Electronics Engineer G¨oteborg, Sweden
-• Drafting technical requirements for new generation electric motor drive.
-• Lead and participate several advanced engineering projects.
-• Working with cross-functional teams to close Product Issue Log (PILs).
-• Conducted Emission Test for pre-compliance with Volvo EMC standard and CISPR 25.
+** Drafting technical requirements for new generation electric motor drive.
+** Lead and participate several advanced engineering projects.
+** Working with cross-functional teams to close Product Issue Log (PILs).
+** Conducted Emission Test for pre-compliance with Volvo EMC standard and CISPR 25.
