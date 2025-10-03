@@ -38,10 +38,9 @@ I'm experienced in common/differential-mode filter designs, inverter modulation 
 - * Beijing Jiaotong University (北京交通大学) - Bachelor’s in Electrical Engineering
 
 # 💻 Work Experience
-- * Volvo Group Truck Technology
-    Nov.2024 - Now
-Associate Power Electronics Engineer G¨oteborg, Sweden
-** Drafting technical requirements for new generation electric motor drive.
-** Lead and participate several advanced engineering projects.
-** Working with cross-functional teams to close Product Issue Log (PILs).
-** Conducted Emission Test for pre-compliance with Volvo EMC standard and CISPR 25.
+- * Volvo Group Truck Technology* ----Nov.2024 - Now, Gothenburg, Sweden
+*Associate Power Electronics Engineer*
+* Drafting technical requirements for new generation electric motor drive.
+* Lead and participate several advanced engineering projects.
+* Working with cross-functional teams to close Product Issue Log (PILs).
+* Conducted Emission Test for pre-compliance with Volvo EMC standard and CISPR 25.
