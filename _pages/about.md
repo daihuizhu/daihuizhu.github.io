@@ -28,7 +28,7 @@ I'm experienced in common/differential-mode filter designs, inverter modulation 
 
 # 📝 Publications 
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2016</div><img src='images/500x300.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">IECON 2025</div><img src='images/500x300.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
   
 [1] Z. Daihui, S. Nimananda, S. Emad， “Optimal Dimensioning of DC-link Capacitor for Electric Motor Drive Application,” IEEE IECON 2025 – 51st Annual Conference of the IEEE Industrial Electronics Society, Madrid, Spain, 2025. (Accepted)
