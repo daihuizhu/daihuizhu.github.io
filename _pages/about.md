@@ -34,11 +34,11 @@ I'm experienced in common/differential-mode filter designs, inverter modulation 
 - Avancez Scholarship - Chalmers University of Technology
   
 # 📖 Educations
-- * Chalmers University of Technology - Master’s in Sustainable Power Engineering and Electromobility
-- * Beijing Jiaotong University (北京交通大学) - Bachelor’s in Electrical Engineering
+- Chalmers University of Technology - Master’s in Sustainable Power Engineering and Electromobility
+- Beijing Jiaotong University (北京交通大学) - Bachelor’s in Electrical Engineering
 
 # 💻 Work Experience
-- * Volvo Group Truck Technology* ----Nov.2024 - Now, Gothenburg, Sweden
+* Volvo Group Truck Technology* ----Nov.2024 - Now, Gothenburg, Sweden
 *Associate Power Electronics Engineer*
 * Drafting technical requirements for new generation electric motor drive.
 * Lead and participate several advanced engineering projects.
