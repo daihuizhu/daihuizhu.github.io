@@ -24,7 +24,7 @@ I'm experienced in common/differential-mode filter designs, inverter modulation 
 
 # 🔥 News
 - *2024.11*: &nbsp;🎉🎉 I joined Volvo Group Truck Technology as a power electronics engineer!
-- *2025.01*: &nbsp;🎉🎉 I graduated from Chalmers!. 
+- *2025.01*: &nbsp;🎉🎉 I graduated from Chalmers!
 
 # 📝 Publications 
 
