@@ -24,10 +24,11 @@ I'm experienced in common/differential-mode filter designs, inverter modulation 
 
 # 🔥 News
 - *2024.11*: &nbsp;🎉🎉 I joined Volvo Group Truck Technology as a power electronics engineer!
-- *2025.01*: &nbsp;🎉🎉 I graduated from Chalmers!. 
+- *2025.01*: &nbsp;🎉🎉 I graduated from Chalmers!
 
 # 📝 Publications 
-
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2016</div><img src='images/500x300.png' alt="sym" width="100%"></div></div>
+<div class='paper-box-text' markdown="1">
 [1] Z. Daihui, S. Nimananda, S. Emad， “Optimal Dimensioning of DC-link Capacitor for Electric Motor Drive Application,” IEEE IECON 2025 – 51st Annual Conference of the IEEE Industrial Electronics Society, Madrid, Spain, 2025. (Accepted)
 
 # 🎖 Honors and Awards
