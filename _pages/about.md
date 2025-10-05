@@ -73,13 +73,11 @@ Daihui Zhu, Mikael Josefsson
 - Beijing Jiaotong University (北京交通大学) - Bachelor’s in Electrical Engineering
 
 # 💻 Work Experience
-![Volvo Logo](images/volvo_trucks_logo.jpg) **Volvo Group Truck Technology** --- Nov.2024 - Now, Gothenburg, Sweden
+![Volvo Logo](images/volvo_trucks_logo.jpg) **Volvo Group Truck Technology** 
 
-**Associate Power Electronics Engineer**
+**Associate Power Electronics Engineer** --- Nov.2024 - Now, Gothenburg, Sweden
 
-My work covers the modelling of DC-link capacitors and their lifetime evaluation, EMC optimization and the gate driver PCBs' design in inverter systems.
-
-I'm experienced in common/differential-mode filter designs, inverter modulation methods and the related controller design. Also, I am involved in system-level EMC simulation. 
+My work covers the modelling of DC-link capacitors and their lifetime evaluation, EMC optimization and the gate driver PCBs' design in inverter systems.Also, I am involved in system-level EMC simulation. 
 
 -Drafting technical requirements for new generation electric motor drive.
 
@@ -89,7 +87,7 @@ I'm experienced in common/differential-mode filter designs, inverter modulation 
 
 -Conducted Emission Test for pre-compliance with Volvo EMC standard and CISPR 25.
 
-# 🖼️Gallery
+# 🖼️ Gallery
 Now playing my life game - To fill the blank in the world maps! ![Maps](images/myVisitedPlaces.png)
 
 **Best of Norway**
