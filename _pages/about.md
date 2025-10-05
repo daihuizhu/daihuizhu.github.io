@@ -19,7 +19,9 @@ redirect_from:
 
 
 Hi, I'm Daihui, a power electronic engineer at Volvo focusing on electric motor drive systems.
+
 Welcome to my site! Here you can find my backgrounds and some of my projects. You can also find some interesting photos!
+
 You can find my CV here [CV](Document/CV.pdf) 
 
 # 🔥 News
