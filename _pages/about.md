@@ -18,9 +18,9 @@ redirect_from:
 <span class='anchor' id='about-me'></span>
 
 
-Hi, I'm Daihui, a power electronic engineer at Volvo focusing on electric motor drive systems. My work covers the modelling of DC-link capacitors and their lifetime evaluation, EMC optimization and the gate driver PCBs' design in inverter systems.
-
-I'm experienced in common/differential-mode filter designs, inverter modulation methods and the related controller design. Also, I am involved in system-level EMC simulation.
+Hi, I'm Daihui, a power electronic engineer at Volvo focusing on electric motor drive systems.
+Welcome to my site! Here you can find my backgrounds and some of my projects. You can also find some interesting photos!
+You can find my CV here [CV](Document/CV.pdf) 
 
 # 🔥 News
 - *2024.11*: &nbsp;🎉🎉 I joined Volvo Group Truck Technology as a power electronics engineer!
@@ -74,6 +74,9 @@ Daihui Zhu, Mikael Josefsson
 ![Volvo Logo](images/volvo_trucks_logo.jpg) **Volvo Group Truck Technology** --- Nov.2024 - Now, Gothenburg, Sweden
 
 **Associate Power Electronics Engineer**
+My work covers the modelling of DC-link capacitors and their lifetime evaluation, EMC optimization and the gate driver PCBs' design in inverter systems.
+
+I'm experienced in common/differential-mode filter designs, inverter modulation methods and the related controller design. Also, I am involved in system-level EMC simulation. 
 
 -Drafting technical requirements for new generation electric motor drive.
 
