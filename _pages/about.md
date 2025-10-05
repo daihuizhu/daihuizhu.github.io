@@ -52,7 +52,7 @@ Daihui Zhu, Nimananda Sharma, Samadaei Emad
     </div>
   </div>
   <div class='paper-box-text' markdown="1">
-[2] Determining Dynamic On-resistance of Lateral Gallium Nitride Devices in Motor Driver Applications (Master Thesis)
+[2] Determining Dynamic On-resistance of Lateral Gallium Nitride Devices in Motor Driver Applications (Master Thesis)(Document/MasterThesis_Daihui_Zhu_final.pdf)
 
 Daihui Zhu, Mikael Josefsson
 
@@ -62,6 +62,7 @@ Daihui Zhu, Mikael Josefsson
 
 # 🎖 Honors and Awards
 - Avancez Scholarship - Chalmers University of Technology
+- 
   
 # 📖 Educations
 - Chalmers University of Technology - Master’s in Sustainable Power Engineering and Electromobility
@@ -73,6 +74,9 @@ Daihui Zhu, Mikael Josefsson
 **Associate Power Electronics Engineer**
 
 -Drafting technical requirements for new generation electric motor drive.
+
 -Lead and participate several advanced engineering projects.
+
 -Working with cross-functional teams to close Product Issue Log (PILs).
+
 -Conducted Emission Test for pre-compliance with Volvo EMC standard and CISPR 25.
