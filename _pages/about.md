@@ -87,7 +87,7 @@ My work covers the modelling of DC-link capacitors and their lifetime evaluation
 
 -Conducted Emission Test for pre-compliance with Volvo EMC standard and CISPR 25.
 
-# My Gallery 🖼️
+# 📸 My Gallery
 Now playing my life game - To fill the blank in the world maps! ![Maps](images/myVisitedPlaces.png)
 
 **Best of Norway**
