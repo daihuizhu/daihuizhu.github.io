@@ -91,7 +91,7 @@ My work covers the modelling of DC-link capacitors and their lifetime evaluation
 **Travel Map**
 Now playing my life game - To fill the blank in the world maps! ![Maps](images/myVisitedPlaces.png)
 
-**Best of Norway**
+**Best of 2025**
 1. Ryten - Lofoten
 ![Ryten](images/Ryten.jpg)
 
@@ -107,9 +107,15 @@ Now playing my life game - To fill the blank in the world maps! ![Maps](images/m
 5. Arora in Tromso 
 ![Tromso](images/Tromso.jpg)
 
-**Best of Iceland**
-1. Maelifell
+
+6. Maelifell
 ![Maelifell](images/Maelifell.jpg)
 
-2. Vocano Eruption - Sundhnúkur in Reykjanes Peninsula
+7. Vocano Eruption - Sundhnúkur in Reykjanes Peninsula
 ![Vocano](images/Vocano.jpg)
+
+8. Hiking at Trolltunga
+![Trolltunga](images/Trolltunga.jpg)
+
+9. Bergen, sunset, with my girlfriend
+![Bergen](images/Bergen.jpg)
