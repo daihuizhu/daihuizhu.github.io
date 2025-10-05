@@ -69,7 +69,7 @@ Daihui Zhu, Mikael Josefsson
 - Beijing Jiaotong University (北京交通大学) - Bachelor’s in Electrical Engineering
 
 # 💻 Work Experience
-![Volvo Logo](images/volvo_trucks_logo.jpg) **Volvo Group Truck Technology** ---- Nov.2024 - Now, Gothenburg, Sweden
+![Volvo Logo](images/volvo_trucks_logo.jpg) **Volvo Group Truck Technology** --- Nov.2024 - Now, Gothenburg, Sweden
 
 **Associate Power Electronics Engineer**
 
