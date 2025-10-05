@@ -87,7 +87,7 @@ I'm experienced in common/differential-mode filter designs, inverter modulation 
 -Conducted Emission Test for pre-compliance with Volvo EMC standard and CISPR 25.
 
 # 🖼️Gallery
-Now playing my life game - To fill the blank in the world maps! [Maps](images/myVisitedPlaces.png)
+Now playing my life game - To fill the blank in the world maps! ![Maps](images/myVisitedPlaces.png)
 ** Best of Norway **
 ![Ryten](images/Ryten.jpg)
 ![Reinebringen](images/Reinebringen.jpg)
