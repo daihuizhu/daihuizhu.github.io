@@ -72,7 +72,7 @@ Daihui Zhu, Mikael Josefsson
 - Chalmers University of Technology - Master’s in Sustainable Power Engineering and Electromobility
 - Beijing Jiaotong University (北京交通大学) - Bachelor’s in Electrical Engineering
 
-# 💻 Work Experience
+# 💻 Work Experience 
 ![Volvo Logo](images/volvo_trucks_logo.jpg) **Volvo Group Truck Technology** 
 
 **Associate Power Electronics Engineer** --- Nov.2024 - Now, Gothenburg, Sweden
@@ -87,7 +87,7 @@ My work covers the modelling of DC-link capacitors and their lifetime evaluation
 
 -Conducted Emission Test for pre-compliance with Volvo EMC standard and CISPR 25.
 
-# 🖼️ My Gallery
+# 🖼️ My Gallery {#-my-gallery}
 Now playing my life game - To fill the blank in the world maps! ![Maps](images/myVisitedPlaces.png)
 
 **Best of Norway**
