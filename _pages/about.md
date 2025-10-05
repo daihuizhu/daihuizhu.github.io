@@ -62,7 +62,7 @@ Daihui Zhu, Mikael Josefsson
 
 # 🎖 Honors and Awards
 - Avancez Scholarship - Chalmers University of Technology
-- 
+- Scholarship for Academic Excellence - Beijing Jiaotong University
   
 # 📖 Educations
 - Chalmers University of Technology - Master’s in Sustainable Power Engineering and Electromobility
@@ -82,3 +82,4 @@ Daihui Zhu, Mikael Josefsson
 -Conducted Emission Test for pre-compliance with Volvo EMC standard and CISPR 25.
 
 # Gallery
+Now playing my life game - To fill the blank in the world maps! (images/volvo_trucks_logo.jpg)
