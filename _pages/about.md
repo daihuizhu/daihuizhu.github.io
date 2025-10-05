@@ -70,6 +70,7 @@ Daihui Zhu, Mikael Josefsson
   
 # 📖 Educations
 - Chalmers University of Technology - Master’s in Sustainable Power Engineering and Electromobility
+- École Polytechnique Fédérale de Lausanne (EPFL) - Exchange Programme
 - Beijing Jiaotong University (北京交通大学) - Bachelor’s in Electrical Engineering
 
 # 💻 Work Experience 
