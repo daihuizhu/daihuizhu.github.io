@@ -56,7 +56,7 @@ Daihui Zhu, Nimananda Sharma, Samadaei Emad
     </div>
   </div>
   <div class='paper-box-text' markdown="1">
-[2] Determining Dynamic On-resistance of Lateral Gallium Nitride Devices in Motor Driver Applications (Master Thesis)(Document/MasterThesis_Daihui_Zhu_final.pdf)
+[2] Determining Dynamic On-resistance of Lateral Gallium Nitride Devices in Motor Driver Applications [(Master Thesis)](Document/MasterThesis_Daihui_Zhu_final.pdf)
 
 Daihui Zhu, Mikael Josefsson
 
