@@ -107,7 +107,6 @@ Now playing my life game - To fill the blank in the world maps! ![Maps](images/m
 5. Arora in Tromso 
 ![Tromso](images/Tromso.jpg)
 
-
 6. Maelifell
 ![Maelifell](images/Maelifell.jpg)
 
