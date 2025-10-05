@@ -26,7 +26,7 @@ I'm experienced in common/differential-mode filter designs, inverter modulation 
 - *2024.11*: &nbsp;🎉🎉 I joined Volvo Group Truck Technology as a power electronics engineer!
 - *2025.01*: &nbsp;🎉🎉 I graduated from Chalmers!
 
-[Chalmers](images/Chalmers.jpg)
+![Chalmers](images/Chalmers.jpg)
 
 # 📝 Publications 
 <div class='paper-box'>
@@ -86,11 +86,11 @@ Daihui Zhu, Mikael Josefsson
 # 🖼️Gallery
 Now playing my life game - To fill the blank in the world maps! [Maps](images/myVisitedPlaces.png)
 ** Best of Norway **
-[Ryten](images/Ryten.jpg)
-[Reinebringen](images/Reinebringen.jpg)
-[Vaeroy](images/Vaeroy.jpg)
-[Longyearbyen](images/Longyearbyen.jpg)
-[Tromso](images/Tromso.jpg)
+![Ryten](images/Ryten.jpg)
+![Reinebringen](images/Reinebringen.jpg)
+![Vaeroy](images/Vaeroy.jpg)
+![Longyearbyen](images/Longyearbyen.jpg)
+![Tromso](images/Tromso.jpg)
 ** Best of Iceland **
-[Maelifell](images/Maelifell.jpg)
-[Vocano](images/Vocano.jpg)
+![Maelifell](images/Maelifell.jpg)
+![Vocano](images/Vocano.jpg)
