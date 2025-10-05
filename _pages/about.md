@@ -76,6 +76,7 @@ Daihui Zhu, Mikael Josefsson
 ![Volvo Logo](images/volvo_trucks_logo.jpg) **Volvo Group Truck Technology** --- Nov.2024 - Now, Gothenburg, Sweden
 
 **Associate Power Electronics Engineer**
+
 My work covers the modelling of DC-link capacitors and their lifetime evaluation, EMC optimization and the gate driver PCBs' design in inverter systems.
 
 I'm experienced in common/differential-mode filter designs, inverter modulation methods and the related controller design. Also, I am involved in system-level EMC simulation. 
