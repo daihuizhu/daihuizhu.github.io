@@ -22,7 +22,7 @@ Hi, I'm Daihui, a power electronic engineer at Volvo focusing on electric motor 
 
 Welcome to my site! Here you can find my backgrounds and some of my projects. You can also find some interesting photos!
 
-You can find my [CV](Document/CV.pdf) here. 
+You may find my [CV](Document/CV.pdf) here. 
 
 # 🔥 News
 - *2024.11*: &nbsp;🎉🎉 I joined Volvo Group Truck Technology as a power electronics engineer!
