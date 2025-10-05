@@ -26,6 +26,8 @@ I'm experienced in common/differential-mode filter designs, inverter modulation 
 - *2024.11*: &nbsp;🎉🎉 I joined Volvo Group Truck Technology as a power electronics engineer!
 - *2025.01*: &nbsp;🎉🎉 I graduated from Chalmers!
 
+[Chalmers](images/Chalmers.jpg)
+
 # 📝 Publications 
 <div class='paper-box'>
   <div class='paper-box-image'>
@@ -60,7 +62,7 @@ Daihui Zhu, Mikael Josefsson
   </div>
 </div>
 
-# 🎖 Honors and Awards
+# 🏆 Honors and Awards
 - Avancez Scholarship - Chalmers University of Technology
 - Scholarship for Academic Excellence - Beijing Jiaotong University
   
@@ -81,5 +83,7 @@ Daihui Zhu, Mikael Josefsson
 
 -Conducted Emission Test for pre-compliance with Volvo EMC standard and CISPR 25.
 
-# Gallery
-Now playing my life game - To fill the blank in the world maps! (images/volvo_trucks_logo.jpg)
+# 🖼️Gallery
+Now playing my life game - To fill the blank in the world maps! [Maps](images/myVisitedPlaces.png)
+[Ryten](images/Ryten.jpg)
+[Maelifell](images/Maelifell.jpg)
