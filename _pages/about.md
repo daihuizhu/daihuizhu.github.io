@@ -107,10 +107,10 @@ Now playing my life game - To fill the blank in the world maps! ![Maps](images/m
 5. Arora in Tromso 
 ![Tromso](images/Tromso.jpg)
 
-6. Maelifell
+6. Maelifell - Iceland
 ![Maelifell](images/Maelifell.jpg)
 
-7. Vocano Eruption - Sundhnúkur in Reykjanes Peninsula
+7. Vocano Eruption - Sundhnúkur in Reykjanes Peninsula, Iceland
 ![Vocano](images/Vocano.jpg)
 
 8. Hiking at Trolltunga
