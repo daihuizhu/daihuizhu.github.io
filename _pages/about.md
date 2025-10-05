@@ -105,7 +105,7 @@ Now playing my life game - To fill the blank in the world maps! ![Maps](images/m
 4. Svalbard - Longyearbyen - Global Seeds Vault 
 ![Longyearbyen](images/Longyearbyen.jpg)
 
-5. Arora in Tromso 
+5. Aurora in Tromso 
 ![Tromso](images/Tromso.jpg)
 
 6. Maelifell - Iceland
