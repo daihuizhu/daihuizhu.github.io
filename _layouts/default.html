@@ -15,10 +15,7 @@ layout: compress
     {% include masthead.html %}
 
     <div id="main" role="main">
-      {% include sidebar.html %}
-    <!-- hitwebcounter Code START -->
-<a href="https://www.hitwebcounter.com/" target="_blank">
-<img src="https://hitwebcounter.com/counter/counter.php?page=21446229&style=0025&nbdigits=5&type=page&initCount=0" title="Conversion Tools" Alt="Conversion Tools"   border="0" /></a>              
+      {% include sidebar.html %}           
       <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
         {% if page.title %}<meta itemprop="headline" content="{{ page.title | markdownify | strip_html | strip_newlines | escape_once }}">{% endif %}
         <div class="page__inner-wrap">
