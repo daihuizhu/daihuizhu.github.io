@@ -85,7 +85,8 @@ Daihui Zhu, Mikael Josefsson
 
 **Associate Power Electronics Engineer** --- Nov.2024 - Now, Gothenburg, Sweden
 
-My work covers the modelling of DC-link capacitors and their lifetime evaluation, EMC optimization and the gate driver PCBs' design in inverter systems.Also, I am involved in system-level EMC simulation. 
+My work covers the modelling of DC-link capacitors and their lifetime evaluation, EMC optimization and comprehensive simulation in inverter systems. Also, I am involved in EMC testing. The details information is as follows:
+
 
 -Drafting technical requirements for new generation electric motor drive.
 
