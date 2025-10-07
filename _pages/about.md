@@ -17,7 +17,12 @@ redirect_from:
 
 <span class='anchor' id='about-me'></span>
 
-
+You are the <div style="text-align:center; margin-top:20px;">
+<!-- hitwebcounter Code START -->
+<a href="https://www.hitwebcounter.com/" target="_blank">
+<img src="https://hitwebcounter.com/counter/counter.php?page=21446229&style=0025&nbdigits=5&type=page&initCount=0" title="Conversion Tools" alt="Conversion Tools" border="0" />
+</a>th visitor to this site! Welcome!
+</div>
 Hi, I'm Daihui, a power electronic engineer at Volvo focusing on electric motor drive systems.
 
 Welcome to my site! Here you can find my backgrounds and some of my projects. You can also find some interesting photos!
