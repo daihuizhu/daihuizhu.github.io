@@ -16,13 +16,16 @@ redirect_from:
 {% assign url = gsDataBaseUrl | append: "google-scholar-stats/gs_data_shieldsio.json" %}
 
 <span class='anchor' id='about-me'></span>
-
-You are the No. <!-- hitwebcounter Code START -->
+Hi, I'm Daihui, a power electronics engineer at Volvo focusing on electric motor drive systems, and a keen photog
+rapher of natural scenary. You are the No. <!-- hitwebcounter Code START -->
 <a href="https://www.hitwebcounter.com/" target="_blank">
 <img src="https://hitwebcounter.com/counter/counter.php?page=21446229&style=0025&nbdigits=5&type=page&initCount=0" title="Conversion Tools" alt="Conversion Tools" border="0" /></a>
- visitor to this site. Welcome! Here you can find my backgrounds and some of my projects. You can also find some interesting photos!
+ visitor to this site.  
+ 
+Welcome to my site! Here you can find my backgrounds and some of my projects. You can also find some interesting photos!
 
-Hi, I'm Daihui, a power electronics engineer at Volvo focusing on electric motor drive systems.
+
+
 
 
 
