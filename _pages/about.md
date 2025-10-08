@@ -98,6 +98,7 @@ My work covers the modelling of DC-link capacitors and their lifetime evaluation
 
 # 📸 My Gallery
 **Travel Map**
+
 Now playing my life game - To fill the blank in the world maps! ![Maps](images/myVisitedPlaces.png)
 
 **Best of 2025**
