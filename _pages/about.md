@@ -16,8 +16,7 @@ redirect_from:
 {% assign url = gsDataBaseUrl | append: "google-scholar-stats/gs_data_shieldsio.json" %}
 
 <span class='anchor' id='about-me'></span>
-Hi, I'm Daihui, a power electronics engineer at Volvo focusing on electric motor drive systems, and a keen photog
-rapher of natural scenary. 
+Hi, I'm Daihui, a power electronics engineer at Volvo focusing on electric motor drive systems, and a keen photographer of natural scenary. 
 
 You are the No. <!-- hitwebcounter Code START -->
 <a href="https://www.hitwebcounter.com/" target="_blank">
