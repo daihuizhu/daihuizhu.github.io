@@ -34,7 +34,9 @@ You could find my [CV](Document/CV.pdf) here.
 - *2024.11*: &nbsp;🎉🎉 I joined Volvo Group Truck Technology as a power electronics engineer!
 - *2025.01*: &nbsp;🎉🎉 I graduated from Chalmers!
 
-![Chalmers](images/Chalmers.jpg){:width="300px"}
+<p align="center">
+  <img src="images/Chalmers.jpg" alt="Chalmers" width="300">
+</p>
 
 # 📝 Publications 
 <div class='paper-box'>
