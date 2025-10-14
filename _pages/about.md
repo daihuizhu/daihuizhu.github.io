@@ -37,7 +37,7 @@ You could find my [CV](Document/CV.pdf) here.
   <img src="images/Chalmers.jpg" alt="Chalmers" width="300">
 </p>
 <p align="center">
-  <img src="images/Graduation.jpg" alt="Graduation" width="300">
+  <img src="images/Graduation.jpeg" alt="Graduation" width="300">
 </p>
 
 # 📝 Publications 
