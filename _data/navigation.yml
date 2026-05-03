@@ -22,4 +22,4 @@ main:
     url: "/#-my-gallery"
 
   - title: "My Gallery"
-    url: "Travel"
+    url: "/travel/"
