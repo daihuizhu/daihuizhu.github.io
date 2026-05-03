@@ -9,6 +9,7 @@
 title                    : "DaihuiZhu"
 description              : ""
 repository               : "daihuizhu/daihuizhu.github.io"
+baseurl: ""
 google_scholar_stats_use_cdn : true
 
 # google analytics
