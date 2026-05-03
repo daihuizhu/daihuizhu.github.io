@@ -67,3 +67,41 @@ body {
     // ... 保持你原有的代码 ...
 }
 // ...
+
+/* 强制黑夜模式下的标题栏背景 */
+[data-theme="dark"] {
+  // 1. 标题栏背景
+  .masthead {
+    background-color: #1a1a1a !important; // 强制设为深色，!important 确保优先级
+    border-bottom: 1px solid #333;        // 添加一个暗色边框，避免与背景混在一起
+  }
+
+  // 2. 标题栏内的内部包装层（有时背景色在这里）
+  .masthead__inner-wrap {
+    background-color: transparent !important;
+  }
+
+  // 3. 导航链接文字颜色
+  .masthead__menu-item a {
+    color: #dddddd !important;
+    &:hover {
+      color: #ffffff !important;
+    }
+  }
+
+  // 4. 网站标题文字 (Daihui's Zone)
+  .site-title {
+    color: #ffffff !important;
+  }
+
+  // 5. 适配 Greedy Nav 的更多按钮（汉堡菜单）
+  .greedy-nav {
+    background-color: transparent !important;
+    .navicon {
+      background: #ffffff !important; // 让手机端三横杠图标变白
+      &:before, &:after {
+        background: #ffffff !important;
+      }
+    }
+  }
+}
