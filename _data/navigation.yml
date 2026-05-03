@@ -4,7 +4,7 @@ main:
     url: "/#about-me"
 
   - title: "Publications"
-    url: "/publication/"
+    url: "/publications/"
     
   - title: "My Gallery"
     url: "/travel/"
