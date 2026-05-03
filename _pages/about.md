@@ -23,9 +23,9 @@ You are the No. <!-- hitwebcounter Code START -->
 <img src="https://hitwebcounter.com/counter/counter.php?page=21448239&style=0006&nbdigits=4&type=ip&initCount=15" title="Counters" Alt="Counters"   border="0" /></a> visitor to this site. Welcome to my site! Here you can find my backgrounds and some of my projects. You can also find some interesting photos!
 
 
-You could find my [CV](/Document/CV.pdf) here. 
 
 # 🔥 News
 - *2024.11*: &nbsp;🎉🎉 I joined Volvo Group Truck Technology as a power electronics engineer!
 - *2025.01*: &nbsp;🎉🎉 I graduated from Chalmers!
+- *2026.04*: &nbsp;🎉🎉 My paper about DC-link capacitor dimensioning gets accepted for ECCE Europe 2026!
 
