@@ -41,12 +41,12 @@ You could find my [CV](Document/CV.pdf) here.
 <div class='paper-box'>
   <div class='paper-box-image'>
     <div>
-      <div class="badge">IECON 2025</div>
-      <img src='images/500x300.png' alt="sym" width="100%">
+      <div class="badge">ECCE Europe 2026</div>
+      <img src='images/ECCE.png' alt="sym" width="100%">
     </div>
   </div>
   <div class='paper-box-text' markdown="1">
-[1] Optimal Dimensioning of DC-link Capacitor for Electric Motor Drive Application, ECCE 2026 – (Accepted)
+[1] Optimal Dimensioning of DC-link Capacitor for Electric Motor Drive Application, ECCE Europe 2026 – (Accepted)
 
 Daihui Zhu, Nimananda Sharma, Samadaei Emad
 
