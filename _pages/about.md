@@ -36,7 +36,7 @@ Here you can find my backgrounds and some of my projects. You can also find some
 # 📷 Featured Photo (Update Monthly)
 <div class='paper-box'>
   <div class='paper-box-image'>
-    <img src='/images/Blafjallafoss.jpg' width="100%">
+    <img src='/images/Blafjallafoss.jpg' width="125%">
   </div>
   <div class='paper-box-text'>
     <strong>Blafjallafoss - Iceland</strong>
