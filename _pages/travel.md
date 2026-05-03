@@ -44,7 +44,7 @@ Now playing my life game - To fill the blank in the world maps!
 ![Bergen](/images/Bergen.jpg)
 
 10. Ingjaldsholskirkja, Iceland
-![Ingjaldsholskirkja](images/Ingjaldsholskirkja.jpg)
+![Ingjaldsholskirkja](/images/Ingjaldsholskirkja.jpg)
 
 11. Driving across Blafjallafoss, Iceland
-![Blafjallafoss](images/Blafjallafoss.jpg)
+![Blafjallafoss](/images/Blafjallafoss.jpg)
