@@ -1,4 +1,5 @@
 ---
+layout: single
 permalink: /travel/
 title: "Travel Map"
 author_profile: true
