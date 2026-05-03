@@ -20,7 +20,9 @@ Hi, I'm Daihui, a power electronics engineer at Volvo focusing on electric motor
 
 You are the No. <!-- hitwebcounter Code START -->
 <a href="https://www.hitwebcounter.com/" target="_blank">
-<img src="https://hitwebcounter.com/counter/counter.php?page=21448239&style=0006&nbdigits=4&type=ip&initCount=15" title="Counters" Alt="Counters"   border="0" /></a> visitor to this site. Welcome to my site! 
+<img src="https://hitwebcounter.com/counter/counter.php?page=21448239&style=0006&nbdigits=4&type=ip&initCount=15" title="Counters" Alt="Counters"   border="0" /></a> visitor to this site. 
+
+Welcome to my site! 
 
 Here you can find my backgrounds and some of my projects. You can also find some interesting photos!
 
