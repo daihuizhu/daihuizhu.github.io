@@ -7,41 +7,114 @@ author_profile: true
 
 # 🌍 My Travel Map
 
-**Travel Map**
-
 Now playing my life game - To fill the blank in the world maps!
 
-**Best of 2025**
-1. Ryten - Lofoten
-![Ryten](images/Ryten.jpg)
+## 📸 Best of 2025
 
-2. Reinebrigen - Lofoten
-![Reinebringen](/images/Reinebringen.jpg)
+<div class='paper-box'>
+  <div class='paper-box-image'>
+    <img src='/images/Ryten.jpg' width="100%">
+  </div>
+  <div class='paper-box-text'>
+    <strong>Ryten - Lofoten</strong>
+  </div>
+</div>
 
-3. Vaeroya - Lofoten
-![Vaeroy](/images/Vaeroy.jpg)
+<div class='paper-box'>
+  <div class='paper-box-image'>
+    <img src='/images/Reinebringen.jpg' width="100%">
+  </div>
+  <div class='paper-box-text'>
+    <strong>Reinebringen - Lofoten</strong>
+  </div>
+</div>
 
-4. Svalbard - Longyearbyen - Global Seeds Vault 
-![Longyearbyen](/images/Longyearbyen.jpg)
+<div class='paper-box'>
+  <div class='paper-box-image'>
+    <img src='/images/Vaeroy.jpg' width="100%">
+  </div>
+  <div class='paper-box-text'>
+    <strong>Vaeroya - Lofoten</strong>
+  </div>
+</div>
 
-5. Aurora in Tromso 
-![Tromso](/images/Tromso.jpg)
+<div class='paper-box'>
+  <div class='paper-box-image'>
+    <img src='/images/Longyearbyen.jpg' width="100%">
+  </div>
+  <div class='paper-box-text'>
+    <strong>Svalbard - Longyearbyen - Global Seeds Vault</strong>
+  </div>
+</div>
 
-6. Maelifell - Iceland
-![Maelifell](/images/Maelifell.jpg)
-![Maelifell2](/images/Maelifell2.jpg)
+<div class='paper-box'>
+  <div class='paper-box-image'>
+    <img src='/images/Tromso.jpg' width="100%">
+  </div>
+  <div class='paper-box-text'>
+    <strong>Aurora in Tromsø</strong>
+  </div>
+</div>
 
-7. Vocano Eruption - Sundhnúkur in Reykjanes Peninsula, Iceland
-![Vocano](/images/Vocano.jpg)
+<div class='paper-box'>
+  <div class='paper-box-image'>
+    <img src='/images/Maelifell.jpg' width="100%">
+  </div>
+  <div class='paper-box-text'>
+    <strong>Maelifell - Iceland</strong>
+  </div>
+</div>
 
-8. Hiking at Trolltunga
-![Trolltunga](/images/Trolltunga.jpg)
+<div class='paper-box'>
+  <div class='paper-box-image'>
+    <img src='/images/Maelifell2.jpg' width="100%">
+  </div>
+  <div class='paper-box-text'>
+    <strong>Maelifell (Another View)</strong>
+  </div>
+</div>
 
-9. Bergen, sunset, with my girlfriend
-![Bergen](/images/Bergen.jpg)
+<div class='paper-box'>
+  <div class='paper-box-image'>
+    <img src='/images/Vocano.jpg' width="100%">
+  </div>
+  <div class='paper-box-text'>
+    <strong>Volcano Eruption - Iceland</strong>
+  </div>
+</div>
 
-10. Ingjaldsholskirkja, Iceland
-![Ingjaldsholskirkja](/images/Ingjaldsholskirkja.jpg)
+<div class='paper-box'>
+  <div class='paper-box-image'>
+    <img src='/images/Trolltunga.jpg' width="100%">
+  </div>
+  <div class='paper-box-text'>
+    <strong>Trolltunga</strong>
+  </div>
+</div>
 
-11. Driving across Blafjallafoss, Iceland
-![Blafjallafoss](/images/Blafjallafoss.jpg)
+<div class='paper-box'>
+  <div class='paper-box-image'>
+    <img src='/images/Bergen.jpg' width="100%">
+  </div>
+  <div class='paper-box-text'>
+    <strong>Bergen Sunset</strong>
+  </div>
+</div>
+
+<div class='paper-box'>
+  <div class='paper-box-image'>
+    <img src='/images/Ingjaldsholskirkja.jpg' width="100%">
+  </div>
+  <div class='paper-box-text'>
+    <strong>Ingjaldsholskirkja</strong>
+  </div>
+</div>
+
+<div class='paper-box'>
+  <div class='paper-box-image'>
+    <img src='/images/Blafjallafoss.jpg' width="100%">
+  </div>
+  <div class='paper-box-text'>
+    <strong>Blafjallafoss</strong>
+  </div>
+</div>
