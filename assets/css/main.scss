@@ -1,107 +1,134 @@
-/* --- 1. 变量定义 (保持在顶部或合适位置) --- */
+---
+---
+
+/*
+ *    Minimal Mistakes Jekyll Theme
+ *
+ *  - Michael Rose
+ *  - mademistakes.com
+ *  - https://twitter.com/mmistakes
+ *
+*/
+
+@import "vendor/breakpoint/breakpoint"; // media query mixins
+@import "variables";
+@import "mixins";
+@import "vendor/susy/susy";
+
+@import "reset";
+@import "base";
+
+@import "utilities";
+@import "animations";
+@import "tables";
+@import "buttons";
+@import "notices";
+@import "masthead";
+@import "navigation";
+@import "footer";
+@import "syntax";
+
+@import "forms";
+
+@import "page";
+@import "archive";
+@import "sidebar";
+
+@import "vendor/font-awesome/fontawesome";
+@import "vendor/font-awesome/solid";
+@import "vendor/font-awesome/brands";
+@import "vendor/magnific-popup/magnific-popup";
+@import "print";
+
+.paper-box {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-bottom: 1px #efefef solid;
+    padding: 2em 0 2em 0;
+    
+
+    .paper-box-image{
+        justify-content: center;
+        display: flex;
+        width: 100%;
+        order: 2;
+        img {
+            max-width: 400px;
+            box-shadow: 3px 3px 6px #888;
+            object-fit: cover;
+        }
+    }
+    
+    .paper-box-text{
+        max-width: 100%;
+        order: 1;
+    }
+    
+    @include breakpoint($medium) {
+        .paper-box-image{
+            justify-content: left;
+            min-width: 200px;
+            max-width: 40%;
+            order: 1;
+        }
+        
+        .paper-box-text{
+            justify-content: left;
+            padding-left: 2em;
+            max-width: 60%;
+            order: 2;
+        }
+
+    }
+
+
+}
+
+$scroll_offset : 2em;
+h1:before, .anchor:before { 
+    content: ''; 
+    display: block; 
+    position: relative; 
+    width: 0; 
+    height: $scroll_offset; 
+    margin-top: -$scroll_offset;
+}
+
+.badge {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    position: absolute;
+    margin-top: .5em;
+    margin-left: -.5em;
+    color: white;
+    background-color: #00369f;
+    font-size: .8em;
+}
+
 :root {
   --bg-color: #ffffff;
   --text-color: #333333;
   --link-color: #0066cc;
-  --masthead-bg: #ffffff; /* 新增标题栏变量 */
 }
 
 [data-theme="dark"] {
   --bg-color: #1e1e1e;
   --text-color: #dddddd;
   --link-color: #66aaff;
-  --masthead-bg: #252525; /* 黑夜模式标题栏背景 */
 }
 
-/* --- 2. 基础背景应用 --- */
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
-  transition: background-color 0.3s ease;
-}
-
-/* 核心修改：强制标题栏跟随主题变色 */
-.masthead {
-  background-color: var(--masthead-bg) !important;
-  transition: background-color 0.3s ease;
-}
-
-/* --- 3. 按钮自动定位逻辑 (解决手机端冲突) --- */
-
-// 确保导航容器是 Flex 布局
-.greedy-nav {
-  display: flex;
-  align-items: center;
 }
 
 #theme-toggle {
   background: none;
-  border: 1px solid currentColor; // 加上边框更像按钮
-  border-radius: 4px;
+  border: none;
   cursor: pointer;
   font-size: 1.2rem;
-  padding: 2px 8px;
-  color: var(--text-color);
-  
-  // 关键定位属性
-  margin-left: auto;      // 自动推向右侧
-  margin-right: 10px;     // 离右侧汉堡菜单或边缘留出间距
-  order: 2;               // 确保在视觉上排在菜单链接后面
-  
-  &:hover {
-    opacity: 0.8;
-  }
-}
-
-/* 针对手机端的优化 */
-@media (max-width: $medium) {
-  #theme-toggle {
-    font-size: 1rem;
-    padding: 1px 6px;
-    margin-right: 5px; // 缩小间距，防止挤占汉堡菜单空间
-  }
-}
-
-/* --- 剩下的原有代码保持不变 --- */
-.paper-box {
-    // ... 保持你原有的代码 ...
-}
-// ...
-
-/* 强制黑夜模式下的标题栏背景 */
-[data-theme="dark"] {
-  // 1. 标题栏背景
-  .masthead {
-    background-color: #1a1a1a !important; // 强制设为深色，!important 确保优先级
-    border-bottom: 1px solid #333;        // 添加一个暗色边框，避免与背景混在一起
-  }
-
-  // 2. 标题栏内的内部包装层（有时背景色在这里）
-  .masthead__inner-wrap {
-    background-color: transparent !important;
-  }
-
-  // 3. 导航链接文字颜色
-  .masthead__menu-item a {
-    color: #dddddd !important;
-    &:hover {
-      color: #ffffff !important;
-    }
-  }
-
-  // 4. 网站标题文字 (Daihui's Zone)
-  .site-title {
-    color: #ffffff !important;
-  }
-
-  // 5. 适配 Greedy Nav 的更多按钮（汉堡菜单）
-  .greedy-nav {
-    background-color: transparent !important;
-    .navicon {
-      background: #ffffff !important; // 让手机端三横杠图标变白
-      &:before, &:after {
-        background: #ffffff !important;
-      }
-    }
-  }
+  padding: 0 8px;
 }
