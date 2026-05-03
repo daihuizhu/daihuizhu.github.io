@@ -31,3 +31,13 @@ Here you can find my backgrounds and some of my projects. You can also find some
 - *2025.01*: &nbsp;🎉🎉 I graduated from Chalmers!
 - *2026.04*: &nbsp;🎉🎉 My paper about DC-link capacitor dimensioning gets accepted for ECCE Europe 2026!
 
+# 📷 Featured Photo (Update Monthly)
+<div class='paper-box'>
+  <div class='paper-box-image'>
+    <img src='/images/Blafjallafoss.jpg' width="100%">
+  </div>
+  <div class='paper-box-text'>
+    <strong>Blafjallafoss - Iceland</strong>
+  </div>
+</div>
+
