@@ -15,7 +15,7 @@ author_profile: true
 - Beijing Jiaotong University (北京交通大学) - Bachelor’s in Electrical Engineering
 
 # 💻 Work Experience 
-![Volvo Logo](images/volvo_trucks_logo.jpg) **Volvo Group Truck Technology** 
+![Volvo Logo](/images/volvo_trucks_logo.jpg) **Volvo Group Truck Technology** 
 
 **Associate Power Electronics Engineer** --- Nov.2024 - Now, Gothenburg, Sweden
 
