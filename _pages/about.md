@@ -93,7 +93,3 @@ My work covers the modelling of DC-link capacitors and their lifetime evaluation
 
 -Conducted Emission Test for pre-compliance with Volvo EMC standard and CISPR 25.
 
-
-
-11. Driving across Blafjallafoss, Iceland
-![Blafjallafoss](images/Blafjallafoss.jpg)
