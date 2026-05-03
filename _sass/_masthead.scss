@@ -16,11 +16,15 @@
     @include clearfix;
     padding: .5em;
     font-family: $sans-serif-narrow;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     @include breakpoint($x-large) {
       max-width: $x-large;
     }
     nav {
       z-index: 10;
+      flex: 1;
     }
     a {
       text-decoration: none;
@@ -50,12 +54,6 @@
     font-weight: 700;
   }
 }
-.masthead__inner-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 #theme-toggle {
   background: none;
   border: none;
