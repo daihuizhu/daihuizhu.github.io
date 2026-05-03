@@ -1,6 +1,6 @@
 ---
 permalink: /travel/
-layout: single
+layout: default
 title: "Travel Map"
 author_profile: true
 ---
