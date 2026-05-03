@@ -1,9 +1,7 @@
----
-permalink: /travel/
-title: "Travel Map"
-layout: single
-author_profile: true
----
+--- permalink: 
+/ title: "" excerpt: "" 
+author_profile: true 
+redirect_from: - /about/ - /about.html ---
 
 {% if site.google_scholar_stats_use_cdn %}
 {% assign gsDataBaseUrl = "https://cdn.jsdelivr.net/gh/" | append: site.repository | append: "@" %}
