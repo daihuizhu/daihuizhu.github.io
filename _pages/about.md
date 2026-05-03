@@ -46,7 +46,7 @@ You could find my [CV](Document/CV.pdf) here.
     </div>
   </div>
   <div class='paper-box-text' markdown="1">
-[1] Optimal Dimensioning of DC-link Capacitor for Electric Motor Drive Application, IEEE IECON 2025 – Madrid, Spain, 2025. (Accepted)
+[1] Optimal Dimensioning of DC-link Capacitor for Electric Motor Drive Application, ECCE 2026 – (Accepted)
 
 Daihui Zhu, Nimananda Sharma, Samadaei Emad
 
