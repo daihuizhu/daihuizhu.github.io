@@ -33,7 +33,7 @@ My work covers the modelling of DC-link capacitors and their lifetime evaluation
 
 -Conducted Emission Test for pre-compliance with Volvo EMC standard and CISPR 25.
 
-# 🛠️ Skills
+# 🛠️ Simulation Tools and Coding
 PlECs,
 Matlab,
 Simulink,
