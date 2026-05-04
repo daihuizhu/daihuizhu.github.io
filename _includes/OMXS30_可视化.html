@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OMXS30 成分股业务与护城河分析</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0f0f0f; color: #e8e8e8; padding: 2rem; min-height: 100vh; }
+  h1 { font-size: 1.4rem; font-weight: 600; margin-bottom: 1.5rem; color: #fff; }
+  .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+  .sum-card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 10px; padding: .9rem 1rem; text-align: center; }
+  .sum-num { font-size: 2rem; font-weight: 600; color: #fff; }
+  .sum-lbl { font-size: 12px; color: #888; margin-top: 3px; }
+  .sector-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem; }
+  .tab { padding: 6px 14px; border-radius: 8px; border: 1px solid #2a2a2a; font-size: 13px; cursor: pointer; background: #1a1a1a; color: #aaa; transition: all .15s; }
+  .tab:hover { border-color: #444; color: #ddd; }
+  .tab.active { background: #262626; color: #fff; border-color: #555; font-weight: 500; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
+  .card { background: #161616; border: 1px solid #252525; border-radius: 12px; padding: 1rem 1.25rem; transition: border-color .15s; }
+  .card:hover { border-color: #3a3a3a; }
+  .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .badge { font-size: 11px; padding: 3px 8px; border-radius: 5px; font-weight: 500; white-space: nowrap; }
+  .card-name { font-size: 15px; font-weight: 500; color: #fff; }
+  .card-ticker { font-size: 12px; color: #555; margin-left: auto; }
+  .card-biz { font-size: 13px; color: #999; line-height: 1.6; margin-bottom: 10px; }
+  .moat-row { display: flex; align-items: flex-start; gap: 6px; font-size: 12px; }
+  .moat-label { font-weight: 500; color: #bbb; white-space: nowrap; font-size: 12px; padding-top: 2px; }
+  .moat-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .moat-tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; }
+
+  /* Sector badge colors */
+  .s-industrials .badge { background: #0f2e22; color: #4ade80; }
+  .s-financials .badge { background: #0f1f35; color: #60a5fa; }
+  .s-it .badge { background: #1a1535; color: #a78bfa; }
+  .s-healthcare .badge { background: #2e1a05; color: #fb923c; }
+  .s-materials .badge { background: #1a2e0a; color: #86efac; }
+  .s-consumer-disc .badge { background: #2e0f1a; color: #f472b6; }
+  .s-consumer-staples .badge { background: #2e1a0f; color: #fdba74; }
+  .s-comms .badge { background: #2e0f0f; color: #fca5a5; }
+
+  /* Moat tag colors */
+  .m-network { background: #0f1f35; color: #60a5fa; }
+  .m-cost { background: #1a2e0a; color: #86efac; }
+  .m-switch { background: #1a1535; color: #a78bfa; }
+  .m-brand { background: #2e0f1a; color: #f472b6; }
+  .m-scale { background: #2e1a05; color: #fb923c; }
+  .m-ip { background: #0f2e22; color: #4ade80; }
+  .m-reg { background: #2e1a0f; color: #fdba74; }
+
+  .footer { margin-top: 2rem; font-size: 12px; color: #444; text-align: center; }
+
+  @media (max-width: 600px) {
+    body { padding: 1rem; }
+    .summary { grid-template-columns: repeat(2, 1fr); }
+    .cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<h1>OMXS30 成分股业务与护城河分析</h1>
+
+<div class="summary">
+  <div class="sum-card"><div class="sum-num">30</div><div class="sum-lbl">成分股</div></div>
+  <div class="sum-card"><div class="sum-num">17</div><div class="sum-lbl">工业股 (最多)</div></div>
+  <div class="sum-card"><div class="sum-num">6</div><div class="sum-lbl">金融股</div></div>
+  <div class="sum-card"><div class="sum-num">8</div><div class="sum-lbl">行业类别</div></div>
+</div>
+
+<div class="sector-tabs">
+  <button class="tab active" onclick="filter('all',this)">全部 (30)</button>
+  <button class="tab" onclick="filter('industrials',this)">工业 (17)</button>
+  <button class="tab" onclick="filter('financials',this)">金融 (6)</button>
+  <button class="tab" onclick="filter('it',this)">科技 (2)</button>
+  <button class="tab" onclick="filter('healthcare',this)">医疗 (1)</button>
+  <button class="tab" onclick="filter('materials',this)">原材料 (2)</button>
+  <button class="tab" onclick="filter('consumer-disc',this)">可选消费 (2)</button>
+  <button class="tab" onclick="filter('consumer-staples',this)">必需消费 (1)</button>
+  <button class="tab" onclick="filter('comms',this)">通信 (2)</button>
+</div>
+
+<div class="cards" id="cards"></div>
+
+<div class="footer">数据基于 OMXS30 2025年成分股 · 生成于 Claude</div>
+
+<script>
+const companies = [
+  {ticker:"ABB",name:"ABB",sector:"industrials",label:"工业",biz:"全球领先的电气化与自动化集团，覆盖机器人、电网、工业电机、驱动系统，在能源转型中是核心供应商",moats:["规模优势","品牌与客户黏性","技术专利"],types:["scale","brand","ip"]},
+  {ticker:"ADDT-B",name:"Addtech",sector:"industrials",label:"工业",biz:"瑞典工业集团，专注分销技术组件（自动化、电子、液压），通过持续并购积累细分市场份额",moats:["并购驱动规模","分销网络壁垒","细分市场深度"],types:["scale","network","switch"]},
+  {ticker:"ALFA",name:"Alfa Laval",sector:"industrials",label:"工业",biz:"热交换、流体处理和分离技术领域全球领导者，服务能源、船运、食品和制药行业",moats:["技术专利","行业认证壁垒","售后服务锁定"],types:["ip","reg","switch"]},
+  {ticker:"ASSA-B",name:"Assa Abloy",sector:"industrials",label:"工业",biz:"全球最大门禁与安全解决方案公司，涵盖机械锁、智能门锁、出入控制系统，品牌覆盖Yale/HID等",moats:["品牌组合","全球分销网络","智能门禁软硬件生态"],types:["brand","network","switch"]},
+  {ticker:"AZN",name:"AstraZeneca",sector:"healthcare",label:"医疗",biz:"全球前五大制药公司，研发并商业化肿瘤、心血管、呼吸道等处方药，靠奥希替尼/达格列净引领增长",moats:["专利保护","研发管线","监管资质壁垒"],types:["ip","reg","scale"]},
+  {ticker:"ATCO-A",name:"Atlas Copco",sector:"industrials",label:"工业",biz:"空气压缩机、真空技术和工业工具的全球顶级制造商，服务半导体、汽车、航空等行业",moats:["技术领先","耗材/服务锁定","全球服务网络"],types:["ip","switch","network"]},
+  {ticker:"BOL",name:"Boliden",sector:"materials",label:"原材料",biz:"北欧最大矿业集团，主营铜、锌、铅、金、银的采矿与冶炼，在瑞典北部拥有核心矿山资源",moats:["优质矿山资产","低成本冶炼","资源稀缺性"],types:["cost","scale","reg"]},
+  {ticker:"EPI-A",name:"Epiroc",sector:"industrials",label:"工业",biz:"采矿与岩石挖掘设备制造商，从Atlas Copco分拆，提供钻机、装载机及自动化矿山解决方案",moats:["设备+耗材锁定","矿山行业认证","售后服务网络"],types:["switch","reg","network"]},
+  {ticker:"EQT",name:"EQT",sector:"financials",label:"金融",biz:"北欧最大私募股权与基础设施资产管理公司，管理资产超1500亿欧元，重点投资科技与生命科学",moats:["品牌与募资能力","行业网络","管理费锁定"],types:["brand","network","switch"]},
+  {ticker:"ERIC-B",name:"Ericsson",sector:"it",label:"科技",biz:"全球三大电信设备商之一，主营5G网络基站、核心网及OSS/BSS系统，靠专利授权也有稳定收入",moats:["5G专利组合","大型运营商合同锁定","通信标准影响力"],types:["ip","switch","reg"]},
+  {ticker:"ESSITY-B",name:"Essity",sector:"consumer-staples",label:"必需消费",biz:"全球领先卫生和健康产品公司，品牌涵盖Tena、Tork、Libresse，覆盖纸尿裤、卫生纸、医疗敷料",moats:["品牌认知度","大规模分销网络","纤维原料采购规模"],types:["brand","network","scale"]},
+  {ticker:"EVO",name:"Evolution",sector:"consumer-disc",label:"可选消费",biz:"全球最大真人娱乐场游戏内容B2B提供商，向在线赌场运营商授权直播游戏内容（真人荷官），垄断性市场地位",moats:["网络效应","规模壁垒","客户黏性极高"],types:["network","scale","switch"]},
+  {ticker:"SHB-A",name:"Handelsbanken",sector:"financials",label:"金融",biz:"瑞典最古老银行之一，以去中心化支行模式著称，提供零售、商业银行及财富管理服务，以稳健著称",moats:["品牌与信任","客户关系黏性","低成本存款基础"],types:["brand","switch","cost"]},
+  {ticker:"HM-B",name:"H&M",sector:"consumer-disc",label:"可选消费",biz:"全球第二大快时尚集团，拥有H&M/COS/Arket等多个品牌，在75+国家运营，线下+电商双渠道",moats:["品牌规模","全球供应链","多品牌矩阵"],types:["brand","scale","cost"]},
+  {ticker:"HEXA-B",name:"Hexagon",sector:"it",label:"科技",biz:"精密测量、地理空间信息与工业软件巨头，产品覆盖自动驾驶传感器、BIM软件、质量控制系统",moats:["软件生态黏性","精密传感器技术","跨行业数据平台"],types:["switch","ip","network"]},
+  {ticker:"INDU-C",name:"Industrivärden",sector:"financials",label:"金融",biz:"瑞典最大工业控股公司之一，核心持股包括Sandvik、Volvo、Ericsson、Skanska等，长线价值投资",moats:["控股网络影响力","低税务成本结构","长期资本"],types:["network","cost","scale"]},
+  {ticker:"INVE-B",name:"Investor AB",sector:"financials",label:"金融",biz:"Wallenberg家族旗舰控股公司，持有ABB、Atlas Copco、Ericsson、AstraZeneca等核心股份，同时管理EQT",moats:["Wallenberg网络","长期资本耐心","关键公司控制权"],types:["network","scale","brand"]},
+  {ticker:"LIFCO-B",name:"Lifco",sector:"industrials",label:"工业",biz:"多元化工业收购平台，专注牙科耗材、系统解决方案和拆迁业务，采取分权式并购增长模式",moats:["细分市场垄断性","并购纪律","轻资产高现金流"],types:["scale","cost","switch"]},
+  {ticker:"NIBE-B",name:"Nibe Industrier",sector:"industrials",label:"工业",biz:"瑞典热泵和气候系统龙头，产品包括地源/空气热泵、地暖和楼宇气候控制，受益于欧洲能源转型",moats:["品牌+认证壁垒","欧洲分销网络","碳中和政策红利"],types:["brand","network","reg"]},
+  {ticker:"NDA-SE",name:"Nordea",sector:"financials",label:"金融",biz:"北欧最大银行集团，覆盖芬兰、瑞典、丹麦、挪威，提供零售、企业、资产管理和私人银行服务",moats:["北欧市场规模","存款基础稳定","数字银行平台"],types:["scale","switch","cost"]},
+  {ticker:"SAAB-B",name:"Saab AB",sector:"industrials",label:"工业",biz:"瑞典国防与安全集团，研发Gripen战斗机、雷达系统、潜艇及陆上防御系统，近年订单大幅增长",moats:["国防合同排他性","政府关系","技术壁垒极高"],types:["reg","ip","switch"]},
+  {ticker:"SAND",name:"Sandvik",sector:"industrials",label:"工业",biz:"工程工具和矿山机械领先者，产品涵盖硬质合金刀具、采矿设备和岩石处理系统，全球10万+员工",moats:["硬质合金技术专利","全球服务网络","耗材持续收入"],types:["ip","network","switch"]},
+  {ticker:"SCA-B",name:"SCA",sector:"materials",label:"原材料",biz:"北欧最大私有林地持有者，主营木材、纸浆、纸张和可再生能源，拥有260万公顷瑞典森林",moats:["土地资源稀缺","木材资产增值","低成本纤维供应"],types:["cost","scale","reg"]},
+  {ticker:"SEB-A",name:"SEB",sector:"financials",label:"金融",biz:"北欧领先的企业和机构银行，擅长大型企业融资、贸易金融和资本市场业务，零售业务也很强",moats:["企业客户关系","波罗的海市场地位","数字化平台"],types:["switch","network","brand"]},
+  {ticker:"SKA-B",name:"Skanska",sector:"industrials",label:"工业",biz:"全球顶级建筑与项目开发公司，承接基础设施、商业地产开发项目，总部在斯德哥尔摩",moats:["品牌与政府关系","项目管理能力","北欧市场份额"],types:["brand","reg","scale"]},
+  {ticker:"SKF-B",name:"SKF",sector:"industrials",label:"工业",biz:"全球最大轴承制造商，产品广泛用于汽车、风电、工业机械，提供轴承+密封+润滑+数字监测一体方案",moats:["品牌+技术领先","全球分销","全生命周期服务"],types:["brand","network","switch"]},
+  {ticker:"SWED-A",name:"Swedbank",sector:"financials",label:"金融",biz:"瑞典最大零售银行（按客户数），深度服务农村和中小城市市场，同时在波罗的海三国有强势地位",moats:["零售存款基础","波罗的海市场份额","数字银行覆盖"],types:["scale","switch","network"]},
+  {ticker:"TEL2-B",name:"Tele2",sector:"comms",label:"通信",biz:"瑞典第二大电信运营商，提供移动、宽带和企业通信服务，以价格竞争力和数字化运营见长",moats:["频谱牌照稀缺","网络基础设施","客户切换成本"],types:["reg","cost","switch"]},
+  {ticker:"TELIA",name:"Telia",sector:"comms",label:"通信",biz:"北欧最大电信集团，覆盖瑞典、芬兰、挪威、丹麦、爱沙尼亚，提供移动、宽带和企业数字服务",moats:["频谱与网络基础设施","地区规模","政府持股保护"],types:["reg","scale","cost"]},
+  {ticker:"VOLV-B",name:"Volvo",sector:"industrials",label:"工业",biz:"全球重型卡车和建筑机械龙头，旗下品牌包括Volvo Trucks/Renault Trucks/Mack，主导欧洲卡车市场",moats:["品牌溢价","经销商与服务网络","电动卡车先发"],types:["brand","network","ip"]}
+];
+
+const moatClass = {network:"m-network",cost:"m-cost",switch:"m-switch",brand:"m-brand",scale:"m-scale",ip:"m-ip",reg:"m-reg"};
+
+function render(sector) {
+  const list = sector === "all" ? companies : companies.filter(c => c.sector === sector);
+  document.getElementById("cards").innerHTML = list.map(c => `
+    <div class="card s-${c.sector}">
+      <div class="card-header">
+        <span class="badge">${c.label}</span>
+        <span class="card-name">${c.name}</span>
+        <span class="card-ticker">${c.ticker}</span>
+      </div>
+      <div class="card-biz">${c.biz}</div>
+      <div class="moat-row">
+        <span class="moat-label">护城河：</span>
+        <span class="moat-tags">${c.moats.map((m,i) => `<span class="moat-tag ${moatClass[c.types[i]]}">${m}</span>`).join("")}</span>
+      </div>
+    </div>
+  `).join("");
+}
+
+function filter(sector, btn) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  btn.classList.add("active");
+  render(sector);
+}
+
+render("all");
+</script>
+</body>
+</html>
