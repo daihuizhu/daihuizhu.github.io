@@ -37,9 +37,11 @@ My work covers the modelling of DC-link capacitors and their lifetime evaluation
 PlECs,
 Matlab,
 Simulink,
-Python,
 LTSpice,
 Ansys Maxwell,
-Comsol
+Comsol,
+Python,
+HTML,
+C
 
 
