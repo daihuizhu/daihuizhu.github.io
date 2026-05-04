@@ -5,7 +5,9 @@ excerpt: ""
 author_profile: true
 ---
 This section highlights my key experiences in both academic and professional fields. 
-You could find my [CV](/Document/CV.pdf) in PDF here. 
+
+You can find my [CV](/Document/CV.pdf) in PDF here. 
+
 # 🏆 Honors and Awards
 - Avancez Scholarship - Chalmers University of Technology
 - Scholarship for Academic Excellence - Beijing Jiaotong University
