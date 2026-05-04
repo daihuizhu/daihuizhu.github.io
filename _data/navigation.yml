@@ -11,3 +11,6 @@ main:
     
   - title: "Gallery"
     url: "/travel/"
+
+  - title: "Blog"
+    url: "/Blog/"
