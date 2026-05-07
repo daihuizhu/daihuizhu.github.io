@@ -5,7 +5,7 @@ excerpt: ""
 author_profile: true
 ---
 # 🏢 Investing
-[OMXS30 Analysis (Chinese)](/assets/HTML/OMX30.html)
+[OMXS30 Analysis (In Chinese)](/assets/HTML/OMX30.html)
 
 # 💡Power Electronics Topics
 ## EMI
