@@ -1,5 +1,5 @@
 ---
-permalink: /blog/EMI/
+permalink: /blog/EMI_Measurement_Dynamic_Range_Notes/
 title: "EMI"
 excerpt: ""
 author_profile: true
