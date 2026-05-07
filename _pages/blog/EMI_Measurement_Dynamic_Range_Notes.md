@@ -217,9 +217,9 @@ Always check whether the overload occurs at:
 
 The issue is fundamentally a dynamic range limitation:
 
-```math
+$$
 \text{Dynamic Range} = P_{\text{max without overload}} - P_{\text{noise floor}}
-```
+$$
 
 Large low-frequency signals consume the analyzer dynamic range, making small high-frequency EMI impossible to observe.
 
