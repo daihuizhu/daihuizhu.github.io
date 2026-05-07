@@ -9,5 +9,5 @@ author_profile: true
 
 # 💡Power Electronics Topics
 ## EMI
-[How to balance overload and noise floor during EMI test](/assets/Markdown/EMI_Measurement_Dynamic_Range_Notes.md)
+[How to balance overload and noise floor during EMI test](/blog/EMI_Measurement_Dynamic_Range_Notes/)
 # ⚙️Electric Motor
