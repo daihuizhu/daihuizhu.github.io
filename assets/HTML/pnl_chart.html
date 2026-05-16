@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P&L Chart</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #ffffff;
+    color: #1a1a1a;
+    padding: 20px 24px 24px;
+    min-height: 100vh;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body { background: #1a1a1a; color: #e8e8e8; }
+    .card { background: #242424; border-color: rgba(255,255,255,0.08); }
+    .metric-card { background: #2a2a2a; }
+    .range-btn { background: #2a2a2a; border-color: rgba(255,255,255,0.12); color: #aaa; }
+    .range-btn.active { background: #1a1a1a; color: #e8e8e8; border-color: rgba(255,255,255,0.3); }
+    .status-dot { background: #333; color: #666; }
+    .loader { border-color: rgba(255,255,255,0.1); border-top-color: #888; }
+  }
+
+  .top-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .title-block {}
+  .title-block h1 { font-size: 15px; font-weight: 500; letter-spacing: -0.01em; }
+  .title-block p  { font-size: 12px; color: #888; margin-top: 2px; }
+
+  .range-row { display: flex; gap: 4px; align-items: center; }
+
+  .range-btn {
+    padding: 4px 10px;
+    font-size: 12px;
+    border-radius: 6px;
+    border: 0.5px solid rgba(0,0,0,0.12);
+    background: #f5f5f5;
+    color: #666;
+    cursor: pointer;
+    transition: all .12s;
+    font-family: inherit;
+  }
+  .range-btn:hover { border-color: rgba(0,0,0,0.22); color: #333; }
+  .range-btn.active {
+    background: #fff;
+    border-color: rgba(0,0,0,0.28);
+    color: #1a1a1a;
+    font-weight: 500;
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .metric-card {
+    background: #f7f7f7;
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .metric-card .label { font-size: 11px; color: #888; margin-bottom: 4px; }
+  .metric-card .value { font-size: 18px; font-weight: 500; letter-spacing: -0.02em; }
+  .metric-card .sub   { font-size: 11px; color: #888; margin-top: 2px; }
+  .pos { color: #22863a; }
+  .neg { color: #cb2431; }
+  .neu { color: #1a1a1a; }
+
+  @media (prefers-color-scheme: dark) {
+    .pos { color: #3fb950; }
+    .neg { color: #f85149; }
+    .neu { color: #e8e8e8; }
+  }
+
+  .chart-wrap {
+    position: relative;
+    width: 100%;
+    height: 220px;
+  }
+
+  .tooltip-line {
+    pointer-events: none;
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: rgba(0,0,0,0.15);
+    display: none;
+  }
+
+  .custom-tooltip {
+    pointer-events: none;
+    position: absolute;
+    background: #fff;
+    border: 0.5px solid rgba(0,0,0,0.12);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 12px;
+    display: none;
+    white-space: nowrap;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    .custom-tooltip { background: #2a2a2a; border-color: rgba(255,255,255,0.1); }
+    .tooltip-line { background: rgba(255,255,255,0.15); }
+  }
+  .custom-tooltip .tt-date  { color: #888; margin-bottom: 2px; }
+  .custom-tooltip .tt-value { font-weight: 500; }
+  .custom-tooltip .tt-pnl   { font-size: 11px; margin-top: 1px; }
+
+  .footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+  }
+  .status-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: #aaa;
+    background: #f5f5f5;
+    padding: 3px 8px;
+    border-radius: 99px;
+  }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: #22863a; }
+  @media (prefers-color-scheme: dark) { .dot { background: #3fb950; } }
+
+  .setup-note {
+    font-size: 11px;
+    color: #aaa;
+    text-align: right;
+    max-width: 280px;
+  }
+
+  .loader-wrap {
+    display: flex; align-items: center; justify-content: center;
+    height: 220px;
+    flex-direction: column; gap: 10px;
+  }
+  .loader {
+    width: 24px; height: 24px; border-radius: 50%;
+    border: 2px solid rgba(0,0,0,0.08);
+    border-top-color: #888;
+    animation: spin .7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loader-text { font-size: 12px; color: #aaa; }
+
+  .error-msg {
+    display: none; text-align: center;
+    padding: 40px 20px;
+    color: #888; font-size: 13px; line-height: 1.6;
+  }
+  .error-msg a { color: inherit; }
+</style>
+</head>
+<body>
+
+<div class="top-row">
+  <div class="title-block">
+    <h1>Portfolio P&amp;L</h1>
+    <p id="subtitle">初始本金 100,000 SEK</p>
+  </div>
+  <div class="range-row">
+    <button class="range-btn" onclick="setRange(1)" data-days="1">1D</button>
+    <button class="range-btn" onclick="setRange(3)" data-days="3">3D</button>
+    <button class="range-btn active" onclick="setRange(7)" data-days="7">1W</button>
+    <button class="range-btn" onclick="setRange(30)" data-days="30">1M</button>
+    <button class="range-btn" onclick="setRange(365)" data-days="365">1Y</button>
+    <button class="range-btn" onclick="setRange(99999)" data-days="99999">All</button>
+  </div>
+</div>
+
+<div class="metrics">
+  <div class="metric-card">
+    <div class="label">当前净值</div>
+    <div class="value neu" id="m-nav">—</div>
+    <div class="sub" id="m-date">—</div>
+  </div>
+  <div class="metric-card">
+    <div class="label">区间盈亏</div>
+    <div class="value" id="m-pnl">—</div>
+    <div class="sub" id="m-pnl-pct">—</div>
+  </div>
+  <div class="metric-card">
+    <div class="label">累计盈亏</div>
+    <div class="value" id="m-total">—</div>
+    <div class="sub" id="m-total-pct">—</div>
+  </div>
+  <div class="metric-card">
+    <div class="label">今日盈亏</div>
+    <div class="value" id="m-today">—</div>
+    <div class="sub" id="m-today-pct">—</div>
+  </div>
+</div>
+
+<div id="loader-wrap" class="loader-wrap">
+  <div class="loader"></div>
+  <div class="loader-text">读取数据中…</div>
+</div>
+
+<div id="error-msg" class="error-msg">
+  无法读取数据。请检查 Google Sheets URL 配置。<br>
+  <small>在页面底部 &lt;script&gt; 中修改 SHEET_URL 变量。</small>
+</div>
+
+<div id="chart-area" style="display:none">
+  <div class="chart-wrap">
+    <canvas id="pnlChart"
+      role="img"
+      aria-label="Portfolio net value over selected time period">
+      Portfolio net value chart
+    </canvas>
+    <div class="tooltip-line" id="tt-line"></div>
+    <div class="custom-tooltip" id="tt-box">
+      <div class="tt-date" id="tt-date"></div>
+      <div class="tt-value" id="tt-value"></div>
+      <div class="tt-pnl" id="tt-pnl"></div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-row">
+  <div class="status-dot"><span class="dot"></span> <span id="data-count">—</span></div>
+  <div class="setup-note" id="setup-note"></div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+//  CONFIG — 修改这里
+// ══════════════════════════════════════════════════════
+
+// 把你的 Google Sheet 设为 "Anyone with link can view"
+// 然后把 URL 里的 spreadsheetId 填进来：
+// https://docs.google.com/spreadsheets/d/[SPREADSHEET_ID]/edit
+const SPREADSHEET_ID = "YOUR_SPREADSHEET_ID_HERE";
+
+// Sheet 名称（默认是 Daily Log）
+const SHEET_NAME = "Daily Log";
+
+// 初始本金
+const INITIAL_CAPITAL = 100000;
+
+// ══════════════════════════════════════════════════════
+//  DEMO DATA — 当 SPREADSHEET_ID 未配置时显示演示数据
+// ══════════════════════════════════════════════════════
+function generateDemoData() {
+  const data = [];
+  let nav = INITIAL_CAPITAL;
+  const today = new Date();
+  for (let i = 89; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    if (d.getDay() === 0 || d.getDay() === 6) continue;
+    const daily = (Math.random() - 0.46) * 1200 + 80;
+    nav += daily;
+    data.push({
+      date: d.toISOString().split("T")[0],
+      nav: Math.round(nav)
+    });
+  }
+  return data;
+}
+
+// ══════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════
+let allData = [];
+let currentDays = 7;
+let chart = null;
+const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+// ══════════════════════════════════════════════════════
+//  FETCH FROM GOOGLE SHEETS JSON API
+// ══════════════════════════════════════════════════════
+async function fetchSheetData() {
+  if (SPREADSHEET_ID === "YOUR_SPREADSHEET_ID_HERE") {
+    document.getElementById("setup-note").textContent =
+      "演示模式 — 配置 SPREADSHEET_ID 后显示真实数据";
+    return generateDemoData();
+  }
+
+  const encodedSheet = encodeURIComponent(SHEET_NAME);
+  const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodedSheet}&range=A:B`;
+
+  try {
+    const res = await fetch(url);
+    const text = await res.text();
+    const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
+    const rows = json.table.rows;
+
+    return rows.slice(1).filter(r => r.c[0] && r.c[1]).map(r => {
+      let dateStr = "";
+      const dv = r.c[0].v;
+      if (typeof dv === "string") {
+        dateStr = dv;
+      } else if (dv && dv.startsWith("Date(")) {
+        const parts = dv.slice(5, -1).split(",").map(Number);
+        const d = new Date(parts[0], parts[1], parts[2]);
+        dateStr = d.toISOString().split("T")[0];
+      }
+      return { date: dateStr, nav: Number(r.c[1].v) };
+    }).filter(d => d.date && !isNaN(d.nav) && d.nav > 0);
+  } catch (e) {
+    console.error("Fetch error:", e);
+    return null;
+  }
+}
+
+// ══════════════════════════════════════════════════════
+//  FILTER DATA
+// ══════════════════════════════════════════════════════
+function filterData(days) {
+  if (days >= 99999) return allData;
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - days);
+  const cutStr = cutoff.toISOString().split("T")[0];
+  const filtered = allData.filter(d => d.date >= cutStr);
+  return filtered.length > 1 ? filtered : allData.slice(-Math.min(days + 2, allData.length));
+}
+
+// ══════════════════════════════════════════════════════
+//  FORMAT HELPERS
+// ══════════════════════════════════════════════════════
+function fmtSEK(v) {
+  const abs = Math.abs(Math.round(v));
+  const s = abs.toLocaleString("sv-SE");
+  return (v < 0 ? "-" : "+") + s + " SEK";
+}
+function fmtPct(v) {
+  return (v >= 0 ? "+" : "") + (v * 100).toFixed(2) + "%";
+}
+function colorClass(v) {
+  return v > 0 ? "pos" : v < 0 ? "neg" : "neu";
+}
+
+// ══════════════════════════════════════════════════════
+//  UPDATE METRICS
+// ══════════════════════════════════════════════════════
+function updateMetrics(filtered) {
+  const last  = filtered[filtered.length - 1];
+  const first = filtered[0];
+  const prev  = filtered.length > 1 ? filtered[filtered.length - 2] : first;
+
+  // Current NAV
+  document.getElementById("m-nav").textContent =
+    Math.round(last.nav).toLocaleString("sv-SE") + " SEK";
+  document.getElementById("m-date").textContent = last.date;
+
+  // Range PnL
+  const rangePnl = last.nav - first.nav;
+  const rangePct = first.nav ? rangePnl / first.nav : 0;
+  const mPnl = document.getElementById("m-pnl");
+  mPnl.textContent = fmtSEK(rangePnl);
+  mPnl.className = "value " + colorClass(rangePnl);
+  document.getElementById("m-pnl-pct").textContent = fmtPct(rangePct);
+
+  // Total PnL vs initial capital
+  const totalPnl = last.nav - INITIAL_CAPITAL;
+  const totalPct = totalPnl / INITIAL_CAPITAL;
+  const mTotal = document.getElementById("m-total");
+  mTotal.textContent = fmtSEK(totalPnl);
+  mTotal.className = "value " + colorClass(totalPnl);
+  document.getElementById("m-total-pct").textContent = fmtPct(totalPct);
+
+  // Today PnL
+  const todayPnl = last.nav - prev.nav;
+  const todayPct = prev.nav ? todayPnl / prev.nav : 0;
+  const mToday = document.getElementById("m-today");
+  mToday.textContent = filtered.length > 1 ? fmtSEK(todayPnl) : "—";
+  mToday.className = "value " + colorClass(todayPnl);
+  document.getElementById("m-today-pct").textContent =
+    filtered.length > 1 ? fmtPct(todayPct) : "—";
+}
+
+// ══════════════════════════════════════════════════════
+//  DRAW CHART
+// ══════════════════════════════════════════════════════
+function drawChart(filtered) {
+  const labels = filtered.map(d => d.date);
+  const values = filtered.map(d => d.nav);
+  const first  = values[0];
+  const last   = values[values.length - 1];
+  const isUp   = last >= first;
+
+  const lineColor  = isUp ? "#22863a" : "#cb2431";
+  const lineDark   = isUp ? "#3fb950" : "#f85149";
+  const fillColor  = isUp ? "rgba(34,134,58,0.08)" : "rgba(203,36,49,0.08)";
+  const fillDark   = isUp ? "rgba(63,185,80,0.08)"  : "rgba(248,81,73,0.08)";
+  const finalColor = isDark ? lineDark : lineColor;
+  const finalFill  = isDark ? fillDark  : fillColor;
+
+  const textCol    = isDark ? "#888" : "#aaa";
+  const gridCol    = isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)";
+
+  if (chart) chart.destroy();
+
+  const ctx = document.getElementById("pnlChart").getContext("2d");
+  chart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels,
+      datasets: [{
+        data: values,
+        borderColor: finalColor,
+        borderWidth: 1.5,
+        pointRadius: 0,
+        pointHoverRadius: 4,
+        pointHoverBackgroundColor: finalColor,
+        fill: true,
+        backgroundColor: finalFill,
+        tension: 0.3,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 300 },
+      interaction: { mode: "index", intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false },
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: textCol, font: { size: 10 }, maxTicksLimit: 6,
+            maxRotation: 0, autoSkip: true,
+          },
+          grid: { display: false },
+          border: { display: false },
+        },
+        y: {
+          ticks: {
+            color: textCol, font: { size: 10 }, maxTicksLimit: 5,
+            callback: v => Math.round(v / 1000) + "k"
+          },
+          grid: { color: gridCol, drawTicks: false },
+          border: { display: false },
+          position: "right",
+        }
+      },
+      onHover: (evt, els) => {
+        if (!els.length) {
+          document.getElementById("tt-line").style.display = "none";
+          document.getElementById("tt-box").style.display = "none";
+          return;
+        }
+        const idx = els[0].index;
+        const d   = filtered[idx];
+        const prevNav = idx > 0 ? filtered[idx - 1].nav : d.nav;
+        const dailyPnl = d.nav - prevNav;
+
+        const ttLine = document.getElementById("tt-line");
+        const ttBox  = document.getElementById("tt-box");
+        const wrap   = document.querySelector(".chart-wrap");
+        const rect   = wrap.getBoundingClientRect();
+        const x      = evt.x - rect.left;
+
+        ttLine.style.display = "block";
+        ttLine.style.left = x + "px";
+
+        document.getElementById("tt-date").textContent = d.date;
+        document.getElementById("tt-value").textContent =
+          Math.round(d.nav).toLocaleString("sv-SE") + " SEK";
+        const pnlEl = document.getElementById("tt-pnl");
+        pnlEl.textContent = idx > 0 ? fmtSEK(dailyPnl) + " today" : "start";
+        pnlEl.style.color = dailyPnl >= 0 ? finalColor : (isDark ? "#f85149" : "#cb2431");
+
+        const ttW   = 150;
+        const left  = x + 12 + ttW > rect.width ? x - ttW - 8 : x + 12;
+        ttBox.style.display = "block";
+        ttBox.style.left    = left + "px";
+        ttBox.style.top     = "8px";
+      }
+    }
+  });
+}
+
+// ══════════════════════════════════════════════════════
+//  SET RANGE
+// ══════════════════════════════════════════════════════
+function setRange(days) {
+  currentDays = days;
+  document.querySelectorAll(".range-btn").forEach(b => {
+    b.classList.toggle("active", parseInt(b.dataset.days) === days);
+  });
+  const filtered = filterData(days);
+  updateMetrics(filtered);
+  drawChart(filtered);
+}
+
+// ══════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════
+async function init() {
+  const data = await fetchSheetData();
+
+  document.getElementById("loader-wrap").style.display = "none";
+
+  if (!data || data.length === 0) {
+    document.getElementById("error-msg").style.display = "block";
+    return;
+  }
+
+  document.getElementById("chart-area").style.display = "block";
+
+  allData = data.sort((a, b) => a.date.localeCompare(b.date));
+  document.getElementById("data-count").textContent =
+    allData.length + " 个交易日";
+
+  setRange(currentDays);
+}
+
+init();
+</script>
+</body>
+</html>
