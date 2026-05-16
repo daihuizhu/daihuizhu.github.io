@@ -6,6 +6,7 @@ author_profile: true
 ---
 # 🏢 Investing
 [My PnL Table](/assets/HTML/pnl_chart.html)
+
 [OMXS30 Analysis (In Chinese, but you can use Google Translate)](/assets/HTML/OMX30.html)
 
 # 💡Power Electronics Topics
