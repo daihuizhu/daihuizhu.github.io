@@ -308,11 +308,12 @@ async function fetchSheetData() {
       const dv = r.c[0].v;
       if (typeof dv === "string") {
         dateStr = dv;
-      } else if (dv && dv.startsWith("Date(")) {
-        const parts = dv.slice(5, -1).split(",").map(Number);
-        const d = new Date(parts[0], parts[1], parts[2]);
-        dateStr = d.toISOString().split("T")[0];
-      }
+     } else if (dv && dv.startsWith("Date(")) {
+  const parts = dv.slice(5, -1).split(",").map(Number);
+  // Google Sheets 月份是 0-indexed，Date(2026,4,15) 实际是 5月15日
+  const yr = parts[0], mo = parts[1] + 1, dy = parts[2];
+  dateStr = yr + "-" + String(mo).padStart(2,"0") + "-" + String(dy).padStart(2,"0");
+}
       return { date: dateStr, nav: Number(r.c[1].v) };
     }).filter(d => d.date && !isNaN(d.nav) && d.nav > 0);
   } catch (e) {
