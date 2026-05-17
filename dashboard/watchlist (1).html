@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Watchlist</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:    #ffffff;
+  --bg2:   #fafafa;
+  --bg3:   #f3f3f3;
+  --bg4:   #e8e8e8;
+  --line:  rgba(0,0,0,0.08);
+  --line2: rgba(0,0,0,0.16);
+  --text:  #1a1a1a;
+  --text2: #444;
+  --muted: #777;
+  --mut2:  #aaa;
+  --amber: #b8860b;
+  --amber2: #d4a017;
+  --green: #1a7f37;
+  --red:   #cf222e;
+  --blue:  #0969da;
+  --mono:  "IBM Plex Mono", monospace;
+  --sans:  "DM Sans", sans-serif;
+  --r: 10px;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 28px 32px 56px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* Header */
+.header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 14px; }
+.header-left { display: flex; align-items: center; gap: 18px; }
+.wordmark { font-family: var(--mono); font-size: 17px; font-weight: 500; letter-spacing: .15em; color: var(--amber); text-transform: uppercase; }
+.sep { width: 1px; height: 22px; background: var(--line2); }
+.subtitle { font-family: var(--mono); font-size: 13px; letter-spacing: .08em; color: var(--muted); text-transform: uppercase; }
+.header-right { display: flex; align-items: center; gap: 10px; }
+
+/* Buttons */
+.btn { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; padding: 8px 16px; border-radius: 6px; cursor: pointer; text-transform: uppercase; border: 1px solid var(--line2); background: var(--bg); color: var(--text2); font-weight: 500; transition: all .15s; }
+.btn:hover { border-color: var(--text); }
+
+/* Live badge */
+.live { display: flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 12px; color: var(--muted); background: var(--bg2); border: 1px solid var(--line); padding: 7px 14px; border-radius: 99px; font-weight: 500; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+.dot.err { background: var(--red); animation: none; }
+
+/* Summary cards */
+.summary-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 24px; }
+.sc { background: var(--bg2); border: 1px solid var(--line); border-radius: var(--r); padding: 18px 20px; }
+.sc .lbl { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .14em; color: var(--muted); text-transform: uppercase; margin-bottom: 10px; }
+.sc .val { font-family: var(--mono); font-size: 26px; font-weight: 500; line-height: 1; }
+.sc .sub { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+/* Filter bar */
+.filter-bar { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+.filter-btn { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; padding: 7px 14px; border-radius: 5px; border: 1px solid var(--line2); background: var(--bg); color: var(--text2); cursor: pointer; transition: all .12s; text-transform: uppercase; font-weight: 500; }
+.filter-btn:hover { border-color: var(--text); }
+.filter-btn.active { background: var(--text); color: white; border-color: var(--text); }
+.filter-sep { width: 1px; height: 24px; background: var(--line2); margin: 0 6px; }
+
+/* Panel */
+.panel { background: var(--bg); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.panel-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg2); border-bottom: 1px solid var(--line); }
+.panel-title { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .14em; color: var(--muted); text-transform: uppercase; }
+
+/* Table */
+.tbl { width: 100%; border-collapse: collapse; }
+.tbl th { padding: 12px 16px; text-align: left; font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .1em; color: var(--muted); text-transform: uppercase; border-bottom: 1px solid var(--line); white-space: nowrap; cursor: pointer; user-select: none; background: var(--bg2); }
+.tbl th:hover { color: var(--text); }
+.tbl th:not(:first-child):not(:nth-child(2)) { text-align: right; }
+.tbl td { padding: 14px 16px; border-bottom: 1px solid var(--line); color: var(--text); vertical-align: middle; white-space: nowrap; font-size: 14px; }
+.tbl td:not(:first-child):not(:nth-child(2)) { text-align: right; }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tr { transition: background .1s; cursor: pointer; }
+.tbl tr:hover td { background: var(--bg2); }
+
+/* Chip */
+.chip { display: inline-block; background: var(--bg3); border: 1px solid var(--line2); border-radius: 4px; padding: 4px 9px; font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--amber); letter-spacing: .03em; }
+
+/* Badges */
+.badge { display: inline-flex; align-items: center; font-family: var(--mono); font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 99px; white-space: nowrap; letter-spacing: .03em; }
+.badge.up   { background: rgba(26,127,55,.12);  color: var(--green); }
+.badge.dn   { background: rgba(207,34,46,.12);  color: var(--red); }
+.badge.warn { background: rgba(184,134,11,.13); color: var(--amber); }
+.badge.info { background: rgba(9,105,218,.12);  color: var(--blue); }
+.badge.none { background: var(--bg3); color: var(--muted); }
+
+/* Stars */
+.stars { font-size: 13px; letter-spacing: -.5px; }
+
+/* Distance bar */
+.dist-bar { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+.bar-bg { width: 56px; height: 4px; background: var(--bg4); border-radius: 99px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 99px; transition: width .4s; }
+
+/* Spark */
+.spark-wrap { display: flex; justify-content: flex-end; }
+
+/* Drawer */
+.drawer { display: none; background: var(--bg2); border-bottom: 1px solid var(--line); }
+.drawer.open { display: table-row; }
+.drawer-inner { padding: 20px 24px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+.drawer-section h4 { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .14em; color: var(--muted); text-transform: uppercase; margin-bottom: 10px; }
+.drawer-row { display: flex; justify-content: space-between; padding: 7px 0; font-family: var(--mono); font-size: 13px; border-bottom: 1px solid var(--line); }
+.drawer-row:last-child { border-bottom: none; padding-top: 12px; font-style: italic; color: var(--muted); }
+.drawer-key { color: var(--muted); }
+.drawer-val { color: var(--text); font-weight: 500; }
+
+/* Colors */
+.pos { color: var(--green) !important; }
+.neg { color: var(--red) !important; }
+.amb { color: var(--amber) !important; }
+.neu { color: var(--text) !important; }
+
+/* States */
+.loader-row td { text-align: center; padding: 56px; color: var(--muted); font-family: var(--mono); font-size: 14px; }
+.spin { display: inline-block; width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--bg4); border-top-color: var(--amber); animation: spin .6s linear infinite; margin-right: 8px; vertical-align: -2px; }
+.error-row td { text-align: center; padding: 40px; font-family: var(--mono); font-size: 13px; line-height: 1.8; color: var(--red); }
+.error-row code { background: var(--bg3); padding: 2px 8px; border-radius: 4px; color: var(--text2); font-size: 12px; }
+.empty { padding: 56px; text-align: center; color: var(--muted); font-family: var(--mono); font-size: 14px; line-height: 1.8; }
+
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+@keyframes spin  { to{transform:rotate(360deg)} }
+@keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:none} }
+.row-animate { animation: fadeIn .25s ease both; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="wordmark">Watchlist</div>
+    <div class="sep"></div>
+    <div class="subtitle" id="wl-count">— items</div>
+  </div>
+  <div class="header-right">
+    <div class="live"><span class="dot" id="live-dot"></span><span id="live-txt">Loading…</span></div>
+    <button class="btn" onclick="refresh()">↻ Refresh</button>
+  </div>
+</div>
+
+<div class="summary-row">
+  <div class="sc"><div class="lbl">Total Items</div><div class="val neu" id="s-total">—</div><div class="sub">in watchlist</div></div>
+  <div class="sc"><div class="lbl">Alert Active</div><div class="val amb" id="s-alerts">—</div><div class="sub">price alerts on</div></div>
+  <div class="sc"><div class="lbl">Near Entry</div><div class="val pos" id="s-near">—</div><div class="sub">within 3% of target</div></div>
+  <div class="sc"><div class="lbl">RSI &lt; 30</div><div class="val" id="s-rsi">—</div><div class="sub">oversold signals</div></div>
+</div>
+
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+  <button class="filter-btn" onclick="setFilter('alert',this)">Alert On</button>
+  <button class="filter-btn" onclick="setFilter('near',this)">Near Entry</button>
+  <button class="filter-btn" onclick="setFilter('rsi',this)">RSI &lt; 30</button>
+  <div class="filter-sep"></div>
+  <button class="filter-btn" onclick="setFilter('equity',this)">Equity</button>
+  <button class="filter-btn" onclick="setFilter('etf',this)">ETF</button>
+  <button class="filter-btn" onclick="setFilter('commodity',this)">Commodity</button>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <div class="panel-title">Holdings Watchlist</div>
+    <div style="font-family:var(--mono);font-size:12px;color:var(--muted)" id="updated-at">—</div>
+  </div>
+  <table class="tbl">
+    <thead>
+      <tr>
+        <th onclick="sortBy('ticker')">Ticker</th>
+        <th onclick="sortBy('name')">Name / Thesis</th>
+        <th onclick="sortBy('price')">Price</th>
+        <th onclick="sortBy('changePct')">Chg%</th>
+        <th onclick="sortBy('entry')">Entry</th>
+        <th onclick="sortBy('target')">Target</th>
+        <th onclick="sortBy('stop')">Stop</th>
+        <th onclick="sortBy('dist')">Dist. to Entry</th>
+        <th onclick="sortBy('rsi14')">RSI14</th>
+        <th onclick="sortBy('ma20')">vs MA20</th>
+        <th onclick="sortBy('conv')">Conv.</th>
+        <th>Alert</th>
+        <th>Signals</th>
+        <th>7D Chart</th>
+      </tr>
+    </thead>
+    <tbody id="wl-body">
+      <tr class="loader-row"><td colspan="14"><span class="spin"></span>Loading watchlist…</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+const CFG = {
+  sheetID:   "1n1x9OoKoNByW3TEtYegtR06jnYUGxc66UrHrSnjqrjY",
+  sheetName: "Watchlist",
+  workerURL: "https://portfolio-api.dzhu253.workers.dev",
+};
+
+let rows = [], enriched = [];
+let currentFilter = "all";
+let sortKey = "conv", sortAsc = false;
+let openDrawer = null;
+const sparkCharts = {};
+
+window.addEventListener("DOMContentLoaded", refresh);
+
+async function refresh() {
+  setText("live-txt", "Loading…");
+  document.getElementById("live-dot").classList.remove("err");
+  document.getElementById("wl-body").innerHTML =
+    `<tr class="loader-row"><td colspan="14"><span class="spin"></span>Fetching watchlist…</td></tr>`;
+
+  try { rows = await fetchSheetRows(); }
+  catch(e) {
+    showError(`Could not read Google Sheet.<br><br>` +
+      `Set sheet permissions to <code>Anyone with the link can view</code>.<br><br>` +
+      `<small>Error: ${e.message}</small>`);
+    return;
+  }
+
+  if (!rows.length) {
+    showError(`No rows in sheet <code>${CFG.sheetName}</code>.<br>Check the sheet name matches.`);
+    return;
+  }
+
+  setText("live-txt", "Fetching prices…");
+  enriched = await enrichRows(rows);
+
+  renderTable();
+  renderSummary();
+  setText("live-txt", new Date().toLocaleTimeString("sv-SE", { hour:"2-digit", minute:"2-digit" }));
+  setText("updated-at", "Updated " + new Date().toLocaleTimeString("sv-SE"));
+  setText("wl-count", enriched.length + " items");
+}
+
+function showError(html) {
+  document.getElementById("wl-body").innerHTML = `<tr class="error-row"><td colspan="14">${html}</td></tr>`;
+  setText("live-txt", "Error");
+  document.getElementById("live-dot").classList.add("err");
+}
+
+async function fetchSheetRows() {
+  const url = `https://docs.google.com/spreadsheets/d/${CFG.sheetID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(CFG.sheetName)}&range=A:M`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("HTTP " + res.status);
+  const text = await res.text();
+  const match = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/);
+  if (!match) throw new Error("Invalid response — sheet may not be public");
+  const json = JSON.parse(match[1]);
+  if (json.status === "error") throw new Error(json.errors?.[0]?.detailed_message || "Sheet access denied");
+
+  return (json.table.rows || [])
+    .filter(r => r.c && r.c[0] && r.c[0].v !== null && r.c[0].v !== "")
+    .map(r => {
+      const v = i => r.c[i] ? (r.c[i].v ?? "") : "";
+      const ticker = String(v(0)).trim();
+      if (!ticker || ticker === "Ticker") return null;
+      return {
+        ticker, yahooTicker: toYahooTicker(ticker),
+        name: String(v(1) || ""), type: String(v(2) || "").toLowerCase(),
+        exchange: String(v(3) || ""), currency: String(v(4) || "USD"),
+        sheetPrice: Number(v(5)) || null,
+        entry: Number(v(6)) || null, target: Number(v(7)) || null, stop: Number(v(8)) || null,
+        alertActive: String(v(9)).toLowerCase() === "yes" || v(9) === true,
+        conviction: String(v(11) || ""), thesis: String(v(12) || ""),
+      };
+    })
+    .filter(Boolean);
+}
+
+function toYahooTicker(t) {
+  const map = {
+    "CURRENCY:XAGUSD": "SI=F", "CURRENCY:XAUUSD": "GC=F",
+    "CURRENCY:USDSEK": "USDSEK=X", "CURRENCY:USDCNY": "USDCNY=X",
+    "CURRENCY:EURUSD": "EURUSD=X",
+  };
+  if (map[t]) return map[t];
+  if (t.includes(":")) {
+    const [exchange, sym] = t.split(":");
+    if (exchange === "STO") return sym + ".ST";
+    return sym;
+  }
+  return t;
+}
+
+async function enrichRows(rows) {
+  const tickers = [...new Set(rows.map(r => r.yahooTicker))].join(",");
+
+  let quotes = {};
+  try {
+    const res = await fetch(`${CFG.workerURL}/quote?tickers=${encodeURIComponent(tickers)}`);
+    if (res.ok) { const data = await res.json(); quotes = data.quotes || {}; }
+  } catch(e) { console.warn("Quote fetch failed:", e); }
+
+  const techResults = await Promise.allSettled(
+    rows.map(r => fetch(`${CFG.workerURL}/technicals?ticker=${encodeURIComponent(r.yahooTicker)}`)
+      .then(r => r.ok ? r.json() : {}).catch(() => ({})))
+  );
+
+  return rows.map((r, i) => {
+    const q = quotes[r.yahooTicker] || {};
+    const tech = techResults[i].status === "fulfilled" ? techResults[i].value : {};
+    const price = q.price || r.sheetPrice || tech.currentPrice || null;
+    const dist = (price && r.entry) ? (price - r.entry) / r.entry : null;
+    const spark = (tech.history || []).slice(-7).map(h => ({ c: h.close, t: h.date }));
+    return {
+      ...r, price, changePct: q.changePct, change: q.change,
+      quoteName: q.name, pe: q.pe, high52: q.fiftyTwoHigh, low52: q.fiftyTwoLow,
+      dist, ma20: tech.ma20, ma50: tech.ma50, rsi14: tech.rsi14,
+      rsiAlert: tech.rsiAlert, crossSignal: tech.crossSignal || "none",
+      ma20AboveMa50: tech.ma20Above50, spark,
+    };
+  });
+}
+
+function renderTable() {
+  const sorted = [...enriched].sort((a, b) => {
+    let va = a[sortKey], vb = b[sortKey];
+    if (sortKey === "conv") { va = (a.conviction.match(/⭐/g)||[]).length; vb = (b.conviction.match(/⭐/g)||[]).length; }
+    if (sortKey === "dist") { va = a.dist ?? 99; vb = b.dist ?? 99; }
+    if (typeof va === "string") return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+    return sortAsc ? ((va||0) - (vb||0)) : ((vb||0) - (va||0));
+  });
+
+  const filtered = sorted.filter(r => {
+    if (currentFilter === "alert")     return r.alertActive;
+    if (currentFilter === "near")      return r.dist !== null && Math.abs(r.dist) < 0.03;
+    if (currentFilter === "rsi")       return r.rsiAlert;
+    if (currentFilter === "equity")    return r.type === "equity";
+    if (currentFilter === "etf")       return r.type === "etf";
+    if (currentFilter === "commodity") return r.type === "commodity";
+    return true;
+  });
+
+  if (!filtered.length) {
+    document.getElementById("wl-body").innerHTML = `<tr><td colspan="14"><div class="empty">No items match this filter.</div></td></tr>`;
+    return;
+  }
+
+  const tbody = document.getElementById("wl-body");
+  tbody.innerHTML = "";
+
+  filtered.forEach((r, idx) => {
+    const price = r.price, pChg = r.changePct, dist = r.dist, rsi = r.rsi14, ma20 = r.ma20;
+    const signals = [];
+    if (r.crossSignal === "golden_cross") signals.push(`<span class="badge up">Golden ✕</span>`);
+    if (r.crossSignal === "death_cross")  signals.push(`<span class="badge dn">Death ✕</span>`);
+    if (r.rsiAlert)                       signals.push(`<span class="badge warn">RSI&lt;30</span>`);
+    if (dist !== null && Math.abs(dist) < 0.03 && dist >= 0) signals.push(`<span class="badge info">Near Entry</span>`);
+    if (r.alertActive && price && r.stop && price <= r.stop) signals.push(`<span class="badge dn">Stop Hit</span>`);
+    if (!signals.length) signals.push(`<span class="badge none">—</span>`);
+
+    const distPct = dist !== null ? (dist * 100).toFixed(1) + "%" : "—";
+    const distCls = dist !== null ? (dist < 0 ? "pos" : dist < 0.05 ? "amb" : "neg") : "";
+    const barWidth = dist !== null ? Math.min(100, Math.abs(dist) * 1000) : 0;
+    const barColor = dist !== null && dist < 0 ? "var(--green)" : "var(--amber)";
+    const maDiff = (price && ma20) ? ((price - ma20) / ma20 * 100).toFixed(1) + "%" : "—";
+    const maCls = (price && ma20) ? (price > ma20 ? "pos" : "neg") : "";
+    const sparkId = `spark-${idx}`;
+
+    const row = document.createElement("tr");
+    row.className = "row-animate";
+    row.innerHTML = `
+      <td><span class="chip">${r.ticker}</span></td>
+      <td style="max-width:240px">
+        <div style="font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:230px">${r.name || r.quoteName || r.ticker}</div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:230px">${r.thesis}</div>
+      </td>
+      <td style="font-family:var(--mono);font-weight:500">${fmtNum(price)}</td>
+      <td class="${pChg>0?'pos':pChg<0?'neg':''}" style="font-family:var(--mono);font-weight:500">${pChg!=null?(pChg>0?'+':'')+pChg.toFixed(2)+'%':'—'}</td>
+      <td style="font-family:var(--mono);color:var(--muted)">${fmtNum(r.entry)}</td>
+      <td style="font-family:var(--mono);color:var(--green)">${fmtNum(r.target)}</td>
+      <td style="font-family:var(--mono);color:var(--red)">${fmtNum(r.stop)}</td>
+      <td><div class="dist-bar"><span class="${distCls}" style="font-family:var(--mono);font-weight:500;min-width:54px;text-align:right">${distPct}</span><div class="bar-bg"><div class="bar-fill" style="width:${barWidth}%;background:${barColor}"></div></div></div></td>
+      <td class="${r.rsiAlert?'neg':''}" style="font-family:var(--mono);font-weight:500">${rsi!=null?rsi.toFixed(1):'—'}</td>
+      <td class="${maCls}" style="font-family:var(--mono);font-weight:500">${maDiff}</td>
+      <td><span class="stars">${r.conviction}</span></td>
+      <td style="text-align:center">${r.alertActive ? `<span style="font-size:18px">🔔</span>` : `<span style="color:var(--mut2)">—</span>`}</td>
+      <td>${signals.join(" ")}</td>
+      <td><div class="spark-wrap"><canvas id="${sparkId}" width="90" height="36"></canvas></div></td>
+    `;
+    row.addEventListener("click", () => toggleDrawer(row, r));
+    tbody.appendChild(row);
+    requestAnimationFrame(() => drawSpark(sparkId, r.spark || []));
+  });
+}
+
+function toggleDrawer(row, r) {
+  const existing = document.querySelector(".drawer.open");
+  if (existing) existing.remove();
+  if (openDrawer === row) { openDrawer = null; return; }
+  openDrawer = row;
+
+  const price = r.price;
+  const crossLabel = r.crossSignal === "golden_cross" ? "🟢 Golden Cross"
+                   : r.crossSignal === "death_cross"  ? "🔴 Death Cross" : "—";
+
+  const drawer = document.createElement("tr");
+  drawer.className = "drawer open";
+  drawer.innerHTML = `<td colspan="14"><div class="drawer-inner">
+    <div class="drawer-section">
+      <h4>Price Levels</h4>
+      <div class="drawer-row"><span class="drawer-key">Current</span><span class="drawer-val">${fmtNum(price)}</span></div>
+      <div class="drawer-row"><span class="drawer-key">Target Entry</span><span class="drawer-val pos">${fmtNum(r.entry)}</span></div>
+      <div class="drawer-row"><span class="drawer-key">Target Exit</span><span class="drawer-val pos">${fmtNum(r.target)}</span></div>
+      <div class="drawer-row"><span class="drawer-key">Stop Loss</span><span class="drawer-val neg">${fmtNum(r.stop)}</span></div>
+      <div class="drawer-row"><span class="drawer-key">52W High</span><span class="drawer-val">${fmtNum(r.high52)}</span></div>
+      <div class="drawer-row"><span class="drawer-key">52W Low</span><span class="drawer-val">${fmtNum(r.low52)}</span></div>
+    </div>
+    <div class="drawer-section">
+      <h4>Technicals</h4>
+      <div class="drawer-row"><span class="drawer-key">RSI 14</span><span class="drawer-val ${r.rsiAlert?'neg':''}">${r.rsi14!=null?r.rsi14.toFixed(1):'—'}</span></div>
+      <div class="drawer-row"><span class="drawer-key">MA 20</span><span class="drawer-val">${fmtNum(r.ma20)}</span></div>
+      <div class="drawer-row"><span class="drawer-key">MA 50</span><span class="drawer-val">${fmtNum(r.ma50)}</span></div>
+      <div class="drawer-row"><span class="drawer-key">Price vs MA20</span><span class="drawer-val ${(price&&r.ma20&&price>r.ma20)?'pos':'neg'}">${(price&&r.ma20)?((price-r.ma20)/r.ma20*100).toFixed(2)+'%':'—'}</span></div>
+      <div class="drawer-row"><span class="drawer-key">MA Cross</span><span class="drawer-val">${crossLabel}</span></div>
+      <div class="drawer-row"><span class="drawer-key">P/E</span><span class="drawer-val">${r.pe?r.pe.toFixed(1):'—'}</span></div>
+    </div>
+    <div class="drawer-section">
+      <h4>Info</h4>
+      <div class="drawer-row"><span class="drawer-key">Type</span><span class="drawer-val">${r.type}</span></div>
+      <div class="drawer-row"><span class="drawer-key">Exchange</span><span class="drawer-val">${r.exchange}</span></div>
+      <div class="drawer-row"><span class="drawer-key">Currency</span><span class="drawer-val">${r.currency}</span></div>
+      <div class="drawer-row"><span class="drawer-key">Alert</span><span class="drawer-val">${r.alertActive?'🔔 On':'Off'}</span></div>
+      <div class="drawer-row"><span class="drawer-key">Conviction</span><span class="drawer-val">${r.conviction}</span></div>
+      <div class="drawer-row"><span>${r.thesis || 'No thesis'}</span></div>
+    </div>
+  </div></td>`;
+  row.after(drawer);
+}
+
+function drawSpark(canvasId, data) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas || !data.length) return;
+  if (sparkCharts[canvasId]) sparkCharts[canvasId].destroy();
+  const vals = data.map(d => d.c);
+  const isUp = vals[vals.length-1] >= vals[0];
+  const col = isUp ? "#1a7f37" : "#cf222e";
+  sparkCharts[canvasId] = new Chart(canvas, {
+    type: "line",
+    data: { labels: vals.map((_,i)=>i), datasets: [{ data: vals, borderColor: col, borderWidth: 1.4, pointRadius: 0, fill: false, tension: 0.3 }] },
+    options: { responsive: false, animation: false, plugins: { legend:{display:false}, tooltip:{enabled:false} }, scales: { x:{display:false}, y:{display:false} } }
+  });
+}
+
+function renderSummary() {
+  setText("s-total", enriched.length);
+  setText("s-alerts", enriched.filter(r => r.alertActive).length);
+  setText("s-near", enriched.filter(r => r.dist !== null && Math.abs(r.dist) < 0.03).length);
+  const rsiCnt = enriched.filter(r => r.rsiAlert).length;
+  const rsiEl = document.getElementById("s-rsi");
+  rsiEl.textContent = rsiCnt;
+  rsiEl.className = "val " + (rsiCnt > 0 ? "neg" : "neu");
+}
+
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  renderTable();
+}
+
+function sortBy(key) {
+  if (sortKey === key) sortAsc = !sortAsc;
+  else { sortKey = key; sortAsc = false; }
+  renderTable();
+}
+
+function fmtNum(v, dec=2) {
+  if (v==null || isNaN(v)) return "—";
+  return Number(v).toLocaleString("en-US", { minimumFractionDigits: dec, maximumFractionDigits: dec });
+}
+function setText(id, t) { const e=document.getElementById(id); if(e) e.textContent=t; }
+</script>
+</body>
+</html>
