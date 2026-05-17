@@ -5,7 +5,7 @@ excerpt: ""
 author_profile: true
 ---
 # 🏢 Investing
-[My PnL Table](/assets/HTML/pnl_chart.html)
+[My PnL Table](/assets/HTML/pnl_chart_v2.html)
 
 [OMXS30 Analysis (In Chinese, but you can use Google Translate)](/assets/HTML/OMX30.html)
 
