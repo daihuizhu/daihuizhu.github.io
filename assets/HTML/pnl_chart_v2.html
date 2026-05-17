@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P&L Chart</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #fff;
+  color: #1a1a1a;
+  padding: 20px 24px 24px;
+}
+
+.top-row {
+  display: flex; align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px; gap: 12px; flex-wrap: wrap;
+}
+.title-block h1 { font-size: 15px; font-weight: 500; }
+.title-block p  { font-size: 12px; color: #888; margin-top: 2px; }
+
+.range-row { display: flex; gap: 4px; }
+.btn {
+  padding: 4px 10px; font-size: 12px; border-radius: 6px;
+  border: 0.5px solid #ddd; background: #f5f5f5;
+  color: #666; cursor: pointer; font-family: inherit;
+}
+.btn.active { background: #fff; border-color: #999; color: #111; font-weight: 500; }
+
+.metrics { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 16px; }
+.mc { background: #f7f7f7; border-radius: 8px; padding: 10px 12px; }
+.mc .lbl { font-size: 11px; color: #888; margin-bottom: 4px; }
+.mc .val { font-size: 17px; font-weight: 500; }
+.mc .sub { font-size: 11px; color: #888; margin-top: 2px; }
+.pos { color: #1a7f37; }
+.neg { color: #cf222e; }
+.neu { color: #1a1a1a; }
+
+.chart-wrap { position: relative; height: 220px; }
+
+.footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+.badge {
+  font-size: 11px; color: #888; background: #f5f5f5;
+  padding: 3px 8px; border-radius: 99px;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+.dot { width: 6px; height: 6px; border-radius: 50%; background: #1a7f37; }
+.note { font-size: 11px; color: #aaa; }
+
+.loader {
+  display: flex; align-items: center; justify-content: center;
+  height: 220px; gap: 10px; flex-direction: column;
+}
+.spin {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 2px solid #eee; border-top-color: #888;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loader p { font-size: 12px; color: #aaa; }
+
+.err { display: none; text-align: center; padding: 40px; font-size: 13px; color: #888; line-height: 1.7; }
+</style>
+</head>
+<body>
+
+<div class="top-row">
+  <div class="title-block">
+    <h1>Portfolio P&amp;L</h1>
+    <p id="sub">—</p>
+  </div>
+  <div class="range-row">
+    <button class="btn" onclick="go(1,this)">1D</button>
+    <button class="btn" onclick="go(3,this)">3D</button>
+    <button class="btn active" onclick="go(7,this)">1W</button>
+    <button class="btn" onclick="go(30,this)">1M</button>
+    <button class="btn" onclick="go(365,this)">1Y</button>
+    <button class="btn" onclick="go(9999,this)">All</button>
+  </div>
+</div>
+
+<div class="metrics">
+  <div class="mc"><div class="lbl">当前净值</div><div class="val neu" id="v-nav">—</div><div class="sub" id="v-date">—</div></div>
+  <div class="mc"><div class="lbl">区间盈亏</div><div class="val" id="v-rpnl">—</div><div class="sub" id="v-rpct">—</div></div>
+  <div class="mc"><div class="lbl">累计盈亏</div><div class="val" id="v-tpnl">—</div><div class="sub" id="v-tpct">—</div></div>
+  <div class="mc"><div class="lbl">今日盈亏</div><div class="val" id="v-dpnl">—</div><div class="sub" id="v-dpct">—</div></div>
+</div>
+
+<div id="loader" class="loader"><div class="spin"></div><p>读取数据中…</p></div>
+<div id="err" class="err">无法读取数据。<br>请检查 SPREADSHEET_ID 是否正确，以及 Sheet 是否设为公开可查看。</div>
+
+<div id="chart-area" style="display:none">
+  <div class="chart-wrap"><canvas id="c"></canvas></div>
+</div>
+
+<div class="footer">
+  <div class="badge"><span class="dot"></span><span id="cnt">—</span></div>
+  <div class="note" id="note"></div>
+</div>
+
+<script>
+// ─────────────────────────────────────────
+//  ★ 修改这两处 ★
+// ─────────────────────────────────────────
+const SPREADSHEET_ID = "YOUR_SPREADSHEET_ID_HERE";
+// 你的 Google Sheet URL 里那段 ID，例如：
+// docs.google.com/spreadsheets/d/1BxiMVs0XRA.../edit
+// 填 1BxiMVs0XRA... 这一段
+
+const SHEET_NAME = "Daily Log";
+// Sheet 标签名，默认是 Daily Log，如果你改过名字就改这里
+// ─────────────────────────────────────────
+
+let all = [], ch = null, curDays = 7;
+
+// ── 解析日期 ──────────────────────────────
+// Google Sheets gviz API 返回日期有两种格式：
+//   1. "Date(2026,4,15)"  ← 月份 0-indexed，4 = 五月
+//   2. "2026-05-15"       ← 直接字符串
+function parseDate(raw) {
+  if (!raw) return "";
+  // 格式1: Date(yyyy,m,d)
+  const m = String(raw).match(/^Date\((\d+),(\d+),(\d+)\)$/);
+  if (m) {
+    const yr = m[1];
+    const mo = String(Number(m[2]) + 1).padStart(2, "0"); // +1 修正0-indexed
+    const dy = String(m[3]).padStart(2, "0");
+    return `${yr}-${mo}-${dy}`;
+  }
+  // 格式2: 直接字符串
+  return String(raw).trim();
+}
+
+// ── 从 Google Sheets 读数据 ───────────────
+async function fetchData() {
+  if (SPREADSHEET_ID === "YOUR_SPREADSHEET_ID_HERE") {
+    document.getElementById("note").textContent = "演示模式 — 填入 SPREADSHEET_ID 后显示真实数据";
+    return demo();
+  }
+  const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&range=A:B`;
+  try {
+    const res  = await fetch(url);
+    const text = await res.text();
+    // gviz 返回的不是纯 JSON，外面包了一层回调
+    const json = JSON.parse(text.replace(/^[^(]+\(/, "").replace(/\);?\s*$/, ""));
+    const rows = json.table.rows;
+
+    const out = [];
+    for (const row of rows) {
+      if (!row.c || !row.c[0] || !row.c[1]) continue;
+      const rawDate = row.c[0].v;           // 日期原始值
+      const rawNav  = row.c[1].v;           // 净值
+      if (rawDate == null || rawNav == null) continue;
+      const dateStr = parseDate(rawDate);
+      const nav     = Number(rawNav);
+      if (!dateStr || isNaN(nav) || nav <= 0) continue;
+      out.push({ date: dateStr, nav });
+    }
+    // 跳过 header 行（如果第一行是文字不是日期）
+    return out.filter(d => /^\d{4}-\d{2}-\d{2}$/.test(d.date))
+              .sort((a, b) => a.date.localeCompare(b.date));
+  } catch(e) {
+    console.error(e);
+    return null;
+  }
+}
+
+// ── 演示数据 ──────────────────────────────
+function demo() {
+  const out = []; let nav = 70000;
+  const today = new Date();
+  for (let i = 89; i >= 0; i--) {
+    const d = new Date(today); d.setDate(d.getDate() - i);
+    if (d.getDay() === 0 || d.getDay() === 6) continue;
+    nav += (Math.random() - 0.44) * 900 + 50;
+    out.push({ date: d.toISOString().split("T")[0], nav: Math.round(nav) });
+  }
+  return out;
+}
+
+// ── 过滤时间范围 ──────────────────────────
+function slice(days) {
+  if (days >= 9999) return all;
+  const cut = new Date();
+  cut.setDate(cut.getDate() - days);
+  const s = cut.toISOString().split("T")[0];
+  const f = all.filter(d => d.date >= s);
+  return f.length >= 2 ? f : all.slice(-Math.max(2, days));
+}
+
+// ── 格式化 ────────────────────────────────
+function fmtNum(v) {
+  return (v >= 0 ? "+" : "") + Math.round(v).toLocaleString("sv-SE") + " SEK";
+}
+function fmtPct(v) {
+  return (v >= 0 ? "+" : "") + (v * 100).toFixed(2) + "%";
+}
+
+// ── 更新 metric 卡片 ──────────────────────
+function updateCards(f) {
+  const last  = f[f.length - 1];
+  const first = f[0];
+  const prev  = f.length > 1 ? f[f.length - 2] : first;
+  // 累计盈亏基准：sheet 里真实的第一行（本金那天）
+  const origin = all[0].nav;
+
+  const rangePnl = last.nav - first.nav;
+  const totalPnl = last.nav - origin;
+  const dayPnl   = last.nav - prev.nav;
+
+  set("v-nav",  Math.round(last.nav).toLocaleString("sv-SE") + " SEK", "neu");
+  set("v-date", last.date);
+
+  set("v-rpnl", fmtNum(rangePnl), rangePnl >= 0 ? "pos" : "neg");
+  setText("v-rpct", fmtPct(first.nav ? rangePnl / first.nav : 0));
+
+  set("v-tpnl", fmtNum(totalPnl), totalPnl >= 0 ? "pos" : "neg");
+  setText("v-tpct", fmtPct(origin ? totalPnl / origin : 0));
+
+  if (f.length > 1) {
+    set("v-dpnl", fmtNum(dayPnl), dayPnl >= 0 ? "pos" : "neg");
+    setText("v-dpct", fmtPct(prev.nav ? dayPnl / prev.nav : 0));
+  } else {
+    set("v-dpnl", "—", "neu");
+    setText("v-dpct", "—");
+  }
+}
+
+function set(id, text, cls) {
+  const el = document.getElementById(id);
+  el.textContent = text;
+  if (cls) el.className = "val " + cls;
+}
+function setText(id, text) {
+  document.getElementById(id).textContent = text;
+}
+
+// ── 画图 ──────────────────────────────────
+function draw(f) {
+  const vals = f.map(d => d.nav);
+  const isUp = vals[vals.length - 1] >= vals[0];
+  const col  = isUp ? "#1a7f37" : "#cf222e";
+  const fill = isUp ? "rgba(26,127,55,0.08)" : "rgba(207,34,46,0.08)";
+
+  if (ch) ch.destroy();
+  ch = new Chart(document.getElementById("c"), {
+    type: "line",
+    data: {
+      labels: f.map(d => d.date),
+      datasets: [{
+        data: vals,
+        borderColor: col, borderWidth: 1.5,
+        pointRadius: 0, pointHoverRadius: 4,
+        pointHoverBackgroundColor: col,
+        fill: true, backgroundColor: fill, tension: 0.3,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 250 },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          displayColors: false,
+          backgroundColor: "rgba(0,0,0,0.72)",
+          titleColor: "#fff", bodyColor: "#ccc",
+          titleFont: { size: 11 }, bodyFont: { size: 11 },
+          padding: 8, cornerRadius: 6,
+          callbacks: {
+            title: items => items[0].label,
+            label: ctx => {
+              const i = ctx.dataIndex;
+              const pnl = i > 0 ? f[i].nav - f[i-1].nav : 0;
+              const nav = Math.round(ctx.raw).toLocaleString("sv-SE") + " SEK";
+              if (i === 0) return nav;
+              const sign = pnl >= 0 ? "+" : "";
+              return [nav, sign + Math.round(pnl).toLocaleString("sv-SE") + " SEK 今日"];
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: "#bbb", font: { size: 10 }, maxTicksLimit: 6, maxRotation: 0 },
+          grid: { display: false }, border: { display: false }
+        },
+        y: {
+          ticks: { color: "#bbb", font: { size: 10 }, maxTicksLimit: 5,
+            callback: v => Math.round(v / 1000) + "k" },
+          grid: { color: "rgba(0,0,0,0.05)", drawTicks: false },
+          border: { display: false }, position: "right"
+        }
+      }
+    }
+  });
+}
+
+// ── 切换时间范围 ──────────────────────────
+function go(days, btn) {
+  curDays = days;
+  document.querySelectorAll(".btn").forEach(b => b.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+  const f = slice(days);
+  updateCards(f);
+  draw(f);
+}
+
+// ── 启动 ──────────────────────────────────
+(async () => {
+  const data = await fetchData();
+  document.getElementById("loader").style.display = "none";
+
+  if (!data || data.length === 0) {
+    document.getElementById("err").style.display = "block";
+    return;
+  }
+
+  all = data;
+  document.getElementById("chart-area").style.display = "block";
+  document.getElementById("cnt").textContent = all.length + " 个交易日";
+  document.getElementById("sub").textContent = "初始本金 " + Math.round(all[0].nav).toLocaleString("sv-SE") + " SEK";
+
+  go(7, document.querySelector(".btn.active"));
+})();
+</script>
+</body>
+</html>
