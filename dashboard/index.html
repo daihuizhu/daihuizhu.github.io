@@ -14,15 +14,15 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:      #0c0c0e;
-  --bg2:     #111114;
-  --bg3:     #18181c;
-  --bg4:     #1f1f25;
-  --line:    rgba(255,255,255,0.06);
-  --line2:   rgba(255,255,255,0.11);
-  --text:    #e2e2da;
-  --muted:   #52525a;
-  --muted2:  #38383f;
+  --bg:      #ffffff;
+  --bg2:     #f8f8f8;
+  --bg3:     #f0f0f0;
+  --bg4:     #e8e8e8;
+  --line:    rgba(0,0,0,0.07);
+  --line2:   rgba(0,0,0,0.13);
+  --text:    #1a1a1a;
+  --muted:   #888888;
+  --muted2:  #bbbbbb;
   --amber:   #d4a843;
   --amber2:  #f0c060;
   --green:   #3ecf6e;
@@ -889,9 +889,9 @@ function renderPnL(days) {
         }
       }},
       scales: {
-        x: { ticks: { color:"#38383f", font:{family:"'IBM Plex Mono'",size:9}, maxTicksLimit:6, maxRotation:0 }, grid:{display:false}, border:{display:false} },
+        x: { ticks: { color:"#aaaaaa", font:{family:"'IBM Plex Mono'",size:9}, maxTicksLimit:6, maxRotation:0 }, grid:{display:false}, border:{display:false} },
         y: { ticks: { color:"#38383f", font:{family:"'IBM Plex Mono'",size:9}, maxTicksLimit:5, callback: v => Math.round(v/1000)+"k" },
-          grid:{color:"rgba(255,255,255,0.03)",drawTicks:false}, border:{display:false}, position:"right" }
+          grid:{color:"rgba(0,0,0,0.05)",drawTicks:false}, border:{display:false}, position:"right" }
       }
     }
   });
