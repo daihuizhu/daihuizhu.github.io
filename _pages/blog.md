@@ -12,3 +12,5 @@ author_profile: true
 ## EMI
 [How to balance overload and noise floor during EMI test](/blog/EMI_Measurement_Dynamic_Range_Notes/)
 # ⚙️Electric Motor
+# 💡Tools
+[Morgage Calculator](/assets/HTML/swedish_mortgage_calculator.html)
