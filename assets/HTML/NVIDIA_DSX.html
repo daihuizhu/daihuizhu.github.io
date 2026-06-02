@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NVIDIA DSX AI Factory 生态</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0e13; --bg2:#11141b; --surface:#161a23; --surface2:#1c212c;
+    --text:#e8eaf0; --muted:#8b92a3; --faint:#5a6173;
+    --border:rgba(255,255,255,.08); --border2:rgba(255,255,255,.14);
+    --green:#34d399; --amber:#fbbf24; --red:#f87171; --orange:#fb923c;
+    --blue:#60a5fa; --gray:#6b7280;
+    --L1:#22d3ee; --L2:#a78bfa; --L3:#f472b6; --L4:#fbbf24; --L5:#34d399; --L6:#60a5fa;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:radial-gradient(1200px 600px at 70% -10%, #1a2030 0%, var(--bg) 55%) fixed;
+    color:var(--text);
+    font-family:'Sora',-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;
+    line-height:1.5; padding:32px 20px 64px; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px;margin:0 auto}
+  header{margin-bottom:28px}
+  .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--L1);font-weight:600;margin-bottom:10px}
+  h1{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;line-height:1.1}
+  h1 span{color:var(--muted);font-weight:600}
+  .sub{color:var(--muted);font-size:15px;margin-top:12px;max-width:760px}
+  .src{color:var(--faint);font-size:12.5px;margin-top:8px}
+  .hint{color:var(--L1);font-size:12.5px;margin-top:6px;opacity:.85}
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 26px}
+  .stat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 18px;min-width:104px}
+  .stat .n{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700}
+  .stat .l{font-size:12px;color:var(--muted);margin-top:2px}
+  .tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+  .tab{
+    background:var(--surface);border:1px solid var(--border);color:var(--muted);
+    padding:8px 15px;border-radius:999px;font-size:13.5px;font-weight:600;cursor:pointer;
+    transition:.18s;font-family:inherit;display:flex;align-items:center;gap:7px;
+  }
+  .tab .dot{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.85}
+  .tab:hover{border-color:var(--border2);color:var(--text)}
+  .tab.active{background:var(--surface2);color:var(--text);border-color:var(--border2)}
+  .controls{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:22px}
+  .toggle{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:13.5px;cursor:pointer;user-select:none}
+  .toggle input{appearance:none;width:38px;height:21px;background:var(--surface2);border:1px solid var(--border2);border-radius:999px;position:relative;cursor:pointer;transition:.2s}
+  .toggle input:checked{background:var(--L1)}
+  .toggle input::after{content:"";position:absolute;width:15px;height:15px;border-radius:50%;background:#fff;top:2px;left:2px;transition:.2s}
+  .toggle input:checked::after{left:19px}
+  .legend{display:flex;flex-wrap:wrap;gap:6px}
+  .lg{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:5px;background:var(--surface);border:1px solid var(--border);padding:4px 9px;border-radius:7px}
+  .lg b{width:9px;height:9px;border-radius:3px;display:inline-block}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:13px}
+  .card{
+    background:var(--surface);border:1px solid var(--border);border-radius:14px;
+    padding:15px 16px 14px;position:relative;overflow:hidden;transition:.18s;
+    animation:rise .4s ease both;display:block;text-decoration:none;color:inherit;
+  }
+  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--acc)}
+  .card.link{cursor:pointer}
+  .card.link:hover{transform:translateY(-3px);border-color:var(--border2);background:var(--surface2)}
+  .card.link:hover .yf{opacity:1;transform:translateX(0)}
+  .card:not(.link){cursor:default}
+  .cardtop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:4px}
+  .name{font-size:16px;font-weight:700;letter-spacing:-.01em;display:flex;align-items:center;gap:6px}
+  .ticker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint);margin-top:1px}
+  .pe{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:18px;text-align:right;white-space:nowrap;line-height:1}
+  .pe small{display:block;font-size:9.5px;font-weight:500;color:var(--faint);margin-top:3px;letter-spacing:.04em}
+  .desc{color:var(--muted);font-size:12.5px;margin:8px 0 11px;min-height:34px}
+  .tags{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+  .t{font-size:10.5px;font-weight:600;padding:3px 8px;border-radius:6px;letter-spacing:.02em}
+  .t-pub{background:rgba(52,211,153,.13);color:var(--green)}
+  .t-pri{background:rgba(107,114,128,.18);color:#9aa3b3}
+  .t-layer{background:var(--accbg);color:var(--acc)}
+  .yf{margin-left:auto;font-size:10.5px;color:var(--L1);opacity:.55;transform:translateX(-4px);transition:.18s;font-weight:600;white-space:nowrap}
+  .est{font-size:9px;color:var(--faint);border:1px solid var(--border);border-radius:4px;padding:1px 4px;font-weight:600}
+  .empty{color:var(--muted);text-align:center;padding:48px 0;grid-column:1/-1;font-size:14px}
+  footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--border);color:var(--faint);font-size:12px;line-height:1.7}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  @media(max-width:560px){.grid{grid-template-columns:1fr 1fr;gap:10px}.card{padding:13px}.pe{font-size:16px}.name{font-size:14.5px}.yf{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">NVIDIA GTC · DSX AI Factory Ecosystem</div>
+    <h1>NVIDIA DSX AI 工厂生态 <span>· 73 家合作伙伴</span></h1>
+    <p class="sub">黄仁勋在 GTC 展示的 AI 工厂全栈合作伙伴,按从云到硬件 6 个层级排列。卡片标注行业、上市状态与最新 PE——约一半为未上市私有公司,部分"neocloud"仍处亏损,真正有稳定 PE 的是成熟工业 / 软件 / 数据中心标的。</p>
+    <p class="hint">▸ 点击任意「上市公司」卡片即可跳转 Yahoo Finance 行情页(私有公司不可点)。</p>
+    <p class="src">PE 为近期快照(2026 年 2–5 月,会每日波动),来源 Macrotrends / Fullratio / GuruFocus / 公司财报。标 <span class="est">估</span> 的为近似值。私有公司无 PE。仅供研究参考,不构成投资建议。</p>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><div class="n">73</div><div class="l">公司总数</div></div>
+    <div class="stat"><div class="n" style="color:var(--green)">39</div><div class="l">已上市</div></div>
+    <div class="stat"><div class="n" style="color:#9aa3b3">34</div><div class="l">私有 / 被收购</div></div>
+    <div class="stat"><div class="n">6</div><div class="l">产业层级</div></div>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="controls">
+    <label class="toggle"><input type="checkbox" id="onlyPub"> 只看上市公司</label>
+    <div class="legend">
+      <span class="lg"><b style="background:var(--green)"></b>PE&lt;20 便宜</span>
+      <span class="lg"><b style="background:var(--amber)"></b>20–50 中等</span>
+      <span class="lg"><b style="background:var(--red)"></b>&gt;50 偏贵</span>
+      <span class="lg"><b style="background:var(--orange)"></b>亏损 / N/A</span>
+      <span class="lg"><b style="background:var(--gray)"></b>私有 / 未列</span>
+    </div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>
+    数据快照锚点:Vertiv ≈70 · GE Vernova ≈56 · Cadence ≈55 · Eaton ≈39 · Caterpillar ≈38 · Trane ≈36 · Schneider ≈35 · Equinix / Digital Realty ≈25 · Jacobs ≈25 · Siemens ≈24 · PTC ≈21 · Dell ≈19 · SMCI ≈18 · Dassault ≈18 · Foxconn ≈16 · HPE ≈14 · Lenovo ≈9 · CoreWeave / Nebius / IREN / Procore 亏损无正 PE。<br>
+    Yahoo Finance 代码后缀:台股 .TW · 日股 .T · 港股 .HK · 瑞士 .SW · 巴黎 .PA · 德国 .DE · 伦敦 .L · 澳洲 .AX · 韩国 .KS · 印尼 .JK。AVEVA、ETAP 已被 Schneider 收购;Red Hat 属 IBM;AirTrunk 已被黑石收购(均不可单独交易)。
+  </footer>
+</div>
+
+<script>
+const LAYERS = {
+  L1:{name:"AI 云", v:"--L1"},
+  L2:{name:"工厂软件", v:"--L2"},
+  L3:{name:"设计建造", v:"--L3"},
+  L4:{name:"能源散热", v:"--L4"},
+  L5:{name:"基建场地", v:"--L5"},
+  L6:{name:"算力硬件", v:"--L6"},
+};
+
+const DATA = [
+  {n:"CoreWeave",L:"L1",t:"CRWV",pub:1,pe:"亏损",yf:"CRWV",d:"AI 算力租赁龙头 neocloud,重资产+高负债"},
+  {n:"Nebius",L:"L1",t:"NBIS",pub:1,pe:"亏损",yf:"NBIS",d:"Yandex 血统全栈 AI 云,营收高速增长"},
+  {n:"IREN",L:"L1",t:"IREN",pub:1,pe:"亏损",yf:"IREN",d:"比特币矿工转型 AI 云,自有电力 4.5GW"},
+  {n:"Indosat",L:"L1",t:"IDX:ISAT",pub:1,pe:13,est:1,yf:"ISAT.JK",d:"印尼电信运营商,布局主权 AI 云"},
+  {n:"GMO Internet",L:"L1",t:"TYO:9449",pub:1,pe:20,est:1,yf:"9449.T",d:"日本互联网集团,GPU 云服务"},
+  {n:"NAVER",L:"L1",t:"KRX:035420",pub:1,pe:18,est:1,yf:"035420.KS",d:"韩国 NAVER,本土云 / 搜索龙头"},
+  {n:"YTL Corp",L:"L1",t:"KLSE:4677",pub:1,pe:12,est:1,yf:"4677.KL",d:"马来西亚 YTL 集团,AI 数据中心"},
+  {n:"Firmus",L:"L1",t:null,pub:0,pe:null,yf:null,d:"新加坡 / 澳洲可持续算力云"},
+  {n:"Lambda",L:"L1",t:null,pub:0,pe:null,yf:null,d:"GPU 云,深度学习起家(Lambda Labs)"},
+  {n:"NScale",L:"L1",t:null,pub:0,pe:null,yf:null,d:"英国 AI 基础设施云"},
+  {n:"GMI Cloud",L:"L1",t:null,pub:0,pe:null,yf:null,d:"GPU 云算力供应商"},
+  {n:"ResetData",L:"L1",t:null,pub:0,pe:null,yf:null,d:"澳洲液冷 AI 云"},
+  {n:"Visionbay.ai",L:"L1",t:null,pub:0,pe:null,yf:null,d:"AI 算力云平台"},
+  {n:"Yotta",L:"L1",t:null,pub:0,pe:null,yf:null,d:"印度 Hiranandani 系超大数据中心"},
+  {n:"Mistral AI",L:"L1",t:null,pub:0,pe:null,yf:null,d:"法国头部开源大模型实验室"},
+  {n:"Sharon AI",L:"L1",t:null,pub:0,pe:null,yf:null,d:"AI 算力 / 数据中心服务商"},
+
+  {n:"IBM (Red Hat)",L:"L2",t:"IBM",pub:1,pe:30,est:1,yf:"IBM",d:"Red Hat 企业 Linux/K8s,已并入 IBM"},
+  {n:"DDN",L:"L2",t:null,pub:0,pe:null,yf:null,d:"高性能存储(DataDirect Networks)"},
+  {n:"VAST Data",L:"L2",t:null,pub:0,pe:null,yf:null,d:"AI 数据平台 / 全闪存储"},
+  {n:"WEKA",L:"L2",t:null,pub:0,pe:null,yf:null,d:"高性能并行文件存储"},
+  {n:"Mirantis",L:"L2",t:null,pub:0,pe:null,yf:null,d:"云原生 / Kubernetes 平台"},
+  {n:"Rafay",L:"L2",t:null,pub:0,pe:null,yf:null,d:"K8s 管理与 GPU 编排"},
+  {n:"Spectro Cloud",L:"L2",t:null,pub:0,pe:null,yf:null,d:"K8s 全生命周期管理"},
+  {n:"OpenNebula",L:"L2",t:null,pub:0,pe:null,yf:null,d:"开源云 / 边缘编排"},
+  {n:"Netris",L:"L2",t:null,pub:0,pe:null,yf:null,d:"数据中心自动化网络"},
+  {n:"Phaidra",L:"L2",t:null,pub:0,pe:null,yf:null,d:"AI 强化学习控制(散热 / 能耗优化)"},
+  {n:"Emerald AI",L:"L2",t:null,pub:0,pe:null,yf:null,d:"数据中心电力调度 AI"},
+  {n:"TrendAI",L:"L2",t:null,pub:0,pe:null,yf:null,d:"AI 工厂运维软件"},
+
+  {n:"Cadence",L:"L3",t:"CDNS",pub:1,pe:55,yf:"CDNS",d:"EDA 芯片设计软件,高估值成长股"},
+  {n:"Siemens",L:"L3",t:"ETR:SIE",pub:1,pe:24,yf:"SIE.DE",d:"工业自动化 / 数字孪生巨头"},
+  {n:"Dassault Systèmes",L:"L3",t:"EPA:DSY",pub:1,pe:18,yf:"DSY.PA",d:"3D 设计 / PLM 软件(法国),PE 创十年低"},
+  {n:"PTC",L:"L3",t:"PTC",pub:1,pe:21,yf:"PTC",d:"CAD / PLM 工业软件"},
+  {n:"Jacobs",L:"L3",t:"J",pub:1,pe:25,est:1,yf:"J",d:"全球工程 / 数据中心设计建造"},
+  {n:"Procore",L:"L3",t:"PCOR",pub:1,pe:"亏损",yf:"PCOR",d:"建筑施工管理 SaaS,尚未盈利"},
+  {n:"Bechtel",L:"L3",t:null,pub:0,pe:null,yf:null,d:"全球最大工程承包商之一"},
+  {n:"AVEVA",L:"L3",t:"→ Schneider",pub:0,pe:null,yf:null,d:"工业软件,已被施耐德私有化"},
+  {n:"ETAP",L:"L3",t:"→ Schneider",pub:0,pe:null,yf:null,d:"电力系统仿真,属施耐德"},
+
+  {n:"Vertiv",L:"L4",t:"VRT",pub:1,pe:70,yf:"VRT",d:"数据中心供电 / 液冷龙头,估值最贵"},
+  {n:"GE Vernova",L:"L4",t:"GEV",pub:1,pe:56,yf:"GEV",d:"发电设备 / 燃气轮机,AI 电力大牛股"},
+  {n:"Caterpillar",L:"L4",t:"CAT",pub:1,pe:38,yf:"CAT",d:"重型设备 / 备用发电机组"},
+  {n:"Eaton",L:"L4",t:"ETN",pub:1,pe:39,yf:"ETN",d:"电力管理 / UPS / 配电,PE 创十年高"},
+  {n:"Trane Technologies",L:"L4",t:"TT",pub:1,pe:36,yf:"TT",d:"暖通 / 数据中心制冷"},
+  {n:"Schneider Electric",L:"L4",t:"EPA:SU",pub:1,pe:35,yf:"SU.PA",d:"配电 / 数据中心电气与制冷"},
+  {n:"ABB",L:"L4",t:"SWX:ABBN",pub:1,pe:28,est:1,yf:"ABBN.SW",d:"电气化 / 工业自动化(瑞士)"},
+  {n:"Delta Electronics",L:"L4",t:"TPE:2308",pub:1,pe:33,est:1,yf:"2308.TW",d:"台达,电源 / 散热方案(台湾)"},
+  {n:"Hitachi",L:"L4",t:"TYO:6501",pub:1,pe:22,est:1,yf:"6501.T",d:"日本电气 / 电网设备综合集团"},
+  {n:"Mitsubishi Electric",L:"L4",t:"TYO:6503",pub:1,pe:18,est:1,yf:"6503.T",d:"日本电气设备 / 配电"},
+  {n:"Engie",L:"L4",t:"EPA:ENGI",pub:1,pe:13,est:1,yf:"ENGI.PA",d:"法国综合能源 / 公用事业"},
+  {n:"National Grid",L:"L4",t:"LON:NG",pub:1,pe:15,est:1,yf:"NG.L",d:"英国电网公用事业"},
+
+  {n:"Equinix",L:"L5",t:"EQIX",pub:1,pe:25,yf:"EQIX",d:"全球最大数据中心 REIT(看 P/FFO)"},
+  {n:"Digital Realty",L:"L5",t:"DLR",pub:1,pe:25,yf:"DLR",d:"数据中心 REIT,超大规模租赁"},
+  {n:"NEXTDC",L:"L5",t:"ASX:NXT",pub:1,pe:"亏损",est:1,yf:"NXT.AX",d:"澳洲数据中心,扩张期折旧高、未盈利"},
+  {n:"NTT",L:"L5",t:"TYO:9432",pub:1,pe:12,est:1,yf:"9432.T",d:"日本电信,全球数据中心布局"},
+  {n:"Sify",L:"L5",t:"SIFY",pub:1,pe:"亏损",est:1,yf:"SIFY",d:"印度数据中心 / 网络(Nasdaq ADR)"},
+  {n:"AirTrunk",L:"L5",t:"→ Blackstone",pub:0,pe:null,yf:null,d:"亚太超大数据中心,黑石收购"},
+  {n:"DayOne",L:"L5",t:null,pub:0,pe:null,yf:null,d:"从万国数据 GDS 分拆的国际数据中心"},
+  {n:"Digital Edge",L:"L5",t:null,pub:0,pe:null,yf:null,d:"亚太数据中心平台"},
+  {n:"Princeton Digital",L:"L5",t:null,pub:0,pe:null,yf:null,d:"亚洲数据中心运营商(PDG)"},
+  {n:"ST Telemedia GDC",L:"L5",t:null,pub:0,pe:null,yf:null,d:"淡马锡系全球数据中心"},
+  {n:"BDx",L:"L5",t:null,pub:0,pe:null,yf:null,d:"亚太数据中心(BDx Data Centers)"},
+  {n:"CSQUARE",L:"L5",t:null,pub:0,pe:null,yf:null,d:"数据中心开发运营"},
+  {n:"CDC",L:"L5",t:null,pub:0,pe:null,yf:null,d:"数据中心运营商"},
+
+  {n:"Dell",L:"L6",t:"DELL",pub:1,pe:19,yf:"DELL",d:"AI 服务器 / 算力硬件,估值最低之一"},
+  {n:"Supermicro",L:"L6",t:"SMCI",pub:1,pe:18,yf:"SMCI",d:"GPU 服务器 / 液冷整机,波动大"},
+  {n:"HPE",L:"L6",t:"HPE",pub:1,pe:14,yf:"HPE",d:"企业服务器 / AI 系统,估值低"},
+  {n:"Lenovo",L:"L6",t:"HKG:0992",pub:1,pe:9,yf:"0992.HK",d:"联想,服务器 + PC,全图最低 PE"},
+  {n:"Foxconn",L:"L6",t:"TPE:2317",pub:1,pe:16,yf:"2317.TW",d:"鸿海,全球最大 AI 服务器代工"},
+  {n:"Quanta (QCT)",L:"L6",t:"TPE:2382",pub:1,pe:21,est:1,yf:"2382.TW",d:"广达,超大规模服务器 ODM"},
+  {n:"Wistron",L:"L6",t:"TPE:3231",pub:1,pe:20,est:1,yf:"3231.TW",d:"纬创,服务器 / GPU 模组代工"},
+  {n:"Wiwynn",L:"L6",t:"TPE:6669",pub:1,pe:18,est:1,yf:"6669.TW",d:"纬颖,云服务器 ODM(纬创系)"},
+  {n:"Pegatron",L:"L6",t:"TPE:4938",pub:1,pe:14,est:1,yf:"4938.TW",d:"和硕,服务器 / 电子代工"},
+  {n:"ASUS",L:"L6",t:"TPE:2357",pub:1,pe:13,est:1,yf:"2357.TW",d:"华硕,AI 服务器 / 主板"},
+  {n:"GIGABYTE",L:"L6",t:"TPE:2376",pub:1,pe:15,est:1,yf:"2376.TW",d:"技嘉,GPU 服务器 / 主板"},
+];
+
+function peColor(pe){
+  if(pe===null||pe==="—") return "var(--gray)";
+  if(pe==="亏损") return "var(--orange)";
+  if(pe<20) return "var(--green)";
+  if(pe<=50) return "var(--amber)";
+  return "var(--red)";
+}
+function peText(pe){
+  if(pe===null) return ["私有","未上市"];
+  if(pe==="亏损") return ["N/A","亏损"];
+  return [pe.toFixed(0), "PE (TTM)"];
+}
+
+const grid = document.getElementById('grid');
+const tabsEl = document.getElementById('tabs');
+let activeLayer = "ALL";
+let onlyPub = false;
+
+function buildTabs(){
+  const all = document.createElement('div');
+  all.className='tab active'; all.dataset.l="ALL";
+  all.innerHTML='全部 <span style="opacity:.6;font-family:\'JetBrains Mono\'">'+DATA.length+'</span>';
+  tabsEl.appendChild(all);
+  Object.entries(LAYERS).forEach(([k,v])=>{
+    const c = DATA.filter(d=>d.L===k).length;
+    const t=document.createElement('div');
+    t.className='tab'; t.dataset.l=k;
+    t.style.color='var('+v.v+')';
+    t.innerHTML='<span class="dot"></span>'+v.name+' <span style="opacity:.6;font-family:\'JetBrains Mono\'">'+c+'</span>';
+    tabsEl.appendChild(t);
+  });
+  tabsEl.addEventListener('click',e=>{
+    const t=e.target.closest('.tab'); if(!t)return;
+    activeLayer=t.dataset.l;
+    [...tabsEl.children].forEach(x=>{
+      x.classList.toggle('active', x===t);
+      if(x.dataset.l==="ALL") x.style.color = x===t? "var(--text)":"var(--muted)";
+    });
+    render();
+  });
+}
+
+function render(){
+  grid.innerHTML='';
+  let list = DATA.filter(d=> activeLayer==="ALL" || d.L===activeLayer);
+  if(onlyPub) list = list.filter(d=>d.pub);
+  list.sort((a,b)=>{
+    const rank=x=> typeof x.pe==='number'?0 : x.pe==="亏损"?1 : 2;
+    if(rank(a)!==rank(b)) return rank(a)-rank(b);
+    if(typeof a.pe==='number'&&typeof b.pe==='number') return b.pe-a.pe;
+    return 0;
+  });
+  if(!list.length){grid.innerHTML='<div class="empty">没有符合条件的公司</div>';return;}
+  list.forEach((d,i)=>{
+    const Lv=LAYERS[d.L].v;
+    const pt=peText(d.pe); const big=pt[0], small=pt[1];
+    const clickable = !!d.yf;
+    const card=document.createElement(clickable?'a':'div');
+    card.className='card'+(clickable?' link':'');
+    if(clickable){
+      card.href='https://finance.yahoo.com/quote/'+d.yf;
+      card.target="_blank"; card.rel="noopener";
+    }
+    card.style.setProperty('--acc','var('+Lv+')');
+    card.style.setProperty('--accbg','color-mix(in srgb, var('+Lv+') 14%, transparent)');
+    card.style.animationDelay=(i*16)+'ms';
+    card.innerHTML=
+      '<div class="cardtop">'+
+        '<div>'+
+          '<div class="name">'+d.n+(d.est?' <span class="est">估</span>':'')+'</div>'+
+          (d.t?'<div class="ticker">'+d.t+'</div>':'')+
+        '</div>'+
+        '<div class="pe" style="color:'+peColor(d.pe)+'">'+big+'<small>'+small+'</small></div>'+
+      '</div>'+
+      '<div class="desc">'+d.d+'</div>'+
+      '<div class="tags">'+
+        '<span class="t '+(d.pub?'t-pub':'t-pri')+'">'+(d.pub?'上市':'私有')+'</span>'+
+        '<span class="t t-layer">'+LAYERS[d.L].name+'</span>'+
+        (clickable?'<span class="yf">Yahoo Finance ↗</span>':'')+
+      '</div>';
+    grid.appendChild(card);
+  });
+}
+
+document.getElementById('onlyPub').addEventListener('change',e=>{onlyPub=e.target.checked;render();});
+buildTabs(); render();
+</script>
+</body>
+</html>
