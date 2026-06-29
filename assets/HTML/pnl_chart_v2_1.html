@@ -118,15 +118,7 @@ const SPREADSHEET_ID = "1BKE0M35NbBMTOhU2uFEnIVj6WnFsahRbT5REbzwNVPI";
 
 const SHEET_NAME = "Daily Log";
 // Sheet 标签名，默认是 Daily Log，如果你改过名字就改这里
-//
-// ★ Sheet 列结构（新增 C、D 两列）★
-//   A 列：日期
-//   B 列：净值 (NAV)
-//   C 列：当天入金金额（没有就留空 / 填 0，比如每月定投 2000~5000）
-//   D 列：当天出金金额（没有就留空 / 填 0，比如赚 5000 提 2000）
-// 没加这两列也不会报错，会自动当作全程没有入出金来算。
 // ─────────────────────────────────────────
-
 let all = [], ch = null, curDays = 7;
 
 // ── 解析日期 ──────────────────────────────
