@@ -358,7 +358,7 @@ function go(days, btn) {
   all = data;
   document.getElementById("chart-area").style.display = "block";
   document.getElementById("cnt").textContent = all.length + " 个交易日";
-  document.getElementById("sub").textContent = "Avanza回本计划，初始本金 " + Math.round(all[0].nav).toLocaleString("sv-SE") + " SEK， 计划明年收益达到20W SEK，每次赚5000提出来2000,每个月定投2-5k";
+  document.getElementById("sub").textContent = "Avanza回本计划，初始本金 " + Math.round(all[0].nav).toLocaleString("sv-SE") + " SEK， 计划明年收益达到20W SEK，每次赚5000提出来2000,每个月定投2-5k,账户最大金额为50000SEK";
 
   go(7, document.querySelector(".btn.active"));
 })();
